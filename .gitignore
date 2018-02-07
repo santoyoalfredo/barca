@@ -142,5 +142,9 @@ $RECYCLE.BIN/
 *.sqlite3
 
 # Resources
+resources/competitions
 resources/countries
 resources/players
+
+# Migrations
+migrations/
