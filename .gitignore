@@ -140,3 +140,7 @@ $RECYCLE.BIN/
 
 # Database
 *.sqlite3
+
+# Resources
+resources/countries
+resources/players

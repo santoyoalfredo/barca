@@ -1,8 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from .models import Player
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+	player_list = Player.objects.all().order_by('club_number')
+	context = {
+        'players': player_list,
+    }
+	return render(request, 'football/index.html', context)
