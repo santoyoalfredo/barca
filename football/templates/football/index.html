@@ -7,7 +7,7 @@
 <div class="container-fluid">
 {% load static %}
 <table class="table">
-{% for player in players %}
+<!-- {% for player in players %}
 	<tr>
 		<td>{% if player.portrait %}
 			<img src="{{player.portrait}}" class="img-portrait img-thumbnail">
@@ -15,11 +15,15 @@
 			<img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
 			{% endif %}
 		</td>
-		<td>{{ player.name }}</td>
+		<td>{{ player }}</td>
 		<td>{{ player.current_team}}</td>
 		<td>#{{ player.club_number}}</td>
 	</tr>
+{% endfor %} -->
+{% for stats in statistics %}
+{{stats}}
 {% endfor %}
+
 </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
