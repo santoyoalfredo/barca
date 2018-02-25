@@ -1,0 +1,33 @@
+{% extends "football/base.html" %}
+{% block content %}
+<div class="container-fluid">
+{% load static %}
+<table class="table table-striped">
+<thead>
+    <tr>
+        <td></td>
+        <td>Name</td>
+        <td>Positions</td>
+        <td>Nationality</td>
+        <td><center>Club</center></td>
+        <td>Club Number</td>
+    </tr>
+</thead>
+{% for player in players %}
+    <tr>
+        <td>{% if player.portrait %}
+            <img src="{% get_static_prefix %}players/{{player.player_id}}.jpg" class="img-portrait img-thumbnail">
+            {% else %}
+            <img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
+            {% endif %}
+        </td>
+        <td><a href="{{player.player_id}}/">{{player.first_name}} {{player.last_name}}</a></td>
+        <td>-</td>
+        <td><img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail"></td>
+        <td><img src="{% get_static_prefix %}teams/{{player.current_team.venue.country}}/{{player.current_team.team_id}}.png" class="img-portrait mx-auto d-block"></td>
+        <td>#{{player.club_number}}</td>
+    </tr>
+{% endfor %}       
+</table>
+</div>
+{% endblock content %}

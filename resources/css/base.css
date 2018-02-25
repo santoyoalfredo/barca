@@ -2,3 +2,8 @@
 	max-width: auto;
 	max-height: 100px;
 }
+
+.img-flag {
+	max-width: 80px;
+	max-height: auto;
+}

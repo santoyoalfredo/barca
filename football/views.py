@@ -1,14 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.views import generic
 
 # Create your views here.
-from .models import Player, Statistics
+from .models import Player, Statistics, Team
 
+class PlayerListView(generic.ListView):
+	model = Player
+	template_name = 'football/player_list.html'
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['players'] = Player.objects.all()
+		return context
+
+class PlayerView(generic.DetailView):
+	model = Player
+	template_name = 'football/player_detail.html'
 
 def index(request):
-	player_list = Player.objects.all().order_by('club_number')
-	stats_list = Statistics.objects.all()
-	context = {
-        'players': player_list,
-        'statistics': stats_list,
-    }
-	return render(request, 'football/index.html', context)
+	return render(request, 'football/index.html')
