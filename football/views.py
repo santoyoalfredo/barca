@@ -3,7 +3,14 @@ from django.views import generic
 from datetime import date
 
 # Create your views here.
-from .models import Player, Position, Statistics, Team
+from .models import Competition, Player, Position, Statistics, Team
+
+class CompetitionListView(generic.ListView):
+	model = Competition
+	template_name = 'football/competitions.html'
+
+	def competitions(self):
+		return Competition.objects.all().order_by('name')
 
 class PlayerListView(generic.ListView):
 	model = Player

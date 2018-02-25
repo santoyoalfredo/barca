@@ -85,7 +85,7 @@ class Position(models.Model):
 
 class Season(models.Model):
 	season_id = models.AutoField(primary_key=True)
-	competition_id = models.ForeignKey('Competition', on_delete=models.SET_DEFAULT, blank=True, default='')
+	competition_id = models.ForeignKey('Competition', on_delete=models.SET_DEFAULT, related_name = 'seasons', blank=True, default='')
 	year = models.IntegerField()	#Starting Year
 	teams = models.ManyToManyField('Team')
 
