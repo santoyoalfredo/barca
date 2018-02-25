@@ -25,8 +25,8 @@ class Fixture(models.Model):
 		('SUN', 'Sunny'),
 		)
 	weather = models.CharField(max_length=3, choices=weather_choices, default='CLE')
-	temperature = models.DecimalField(max_digits=3, decimal_places=1)
-	windchill = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+	temperature = models.DecimalField(max_digits=3, decimal_places=1)	#Celsius
+	windchill = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)	#Celsius
 	humidity = models.IntegerField()
 	pressure = models.IntegerField()
 	wind_direction_choices = (
@@ -56,7 +56,7 @@ class Fixture(models.Model):
 	penalty_shootout = models.BooleanField()
 
 	def __str__(self):
-		return '%s %d-%d %s' % (self.home_team, self.home_score, self.away_score, self.away_team)
+		return '%s - %s - %s %d-%d %s' % (self.season_id, self.date, self.home_team, self.home_score, self.away_score, self.away_team)
 
 class Player(models.Model):
 	player_id = models.AutoField(primary_key=True)
@@ -66,11 +66,11 @@ class Player(models.Model):
 	position = models.CharField(max_length=3)
 	club_number = models.IntegerField(default=0)
 	country_number = models.IntegerField(default=0)
-	dob = models.DateField(auto_now=False, auto_now_add=False)
-	nationality = models.CharField(max_length=3)
+	dob = models.DateField(auto_now=False, auto_now_add=False)	#YYYY-MM-DD
+	nationality = models.CharField(max_length=3)	#FIFA Country Code
 	current_team = models.ForeignKey('Team', on_delete=models.SET_DEFAULT, blank=True, default='')
-	height = models.IntegerField()
-	weight = models.IntegerField()
+	height = models.IntegerField()	#Centimeters
+	weight = models.IntegerField()	#Kilograms
 	portrait = models.ImageField(upload_to='resources/players/', null=True, blank=True, default='')
 
 	def __str__(self):
@@ -79,7 +79,7 @@ class Player(models.Model):
 class Season(models.Model):
 	season_id = models.AutoField(primary_key=True)
 	competition_id = models.ForeignKey('Competition', on_delete=models.SET_DEFAULT, blank=True, default='')
-	year = models.IntegerField()
+	year = models.IntegerField()	#Starting Year
 	teams = models.ManyToManyField('Team')
 
 	def __str__(self):
@@ -88,6 +88,7 @@ class Season(models.Model):
 class Team(models.Model):
 	team_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
+	crest = models.ImageField(upload_to='resources/teams', null=True, blank=True, default='')
 	venue = models.ForeignKey('Venue', on_delete=models.SET_DEFAULT, blank=True, default='')
 
 	def __str__(self):
@@ -98,7 +99,7 @@ class Venue(models.Model):
 	name = models.CharField(max_length=50)
 	city = models.CharField(max_length=50)
 	country = models.CharField(max_length=3)
-	altitude = models.IntegerField()
+	altitude = models.IntegerField()	#Meters
 
 	def __str__(self):
 		return '%s' % (self.name)

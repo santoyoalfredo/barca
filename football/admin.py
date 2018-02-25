@@ -22,10 +22,12 @@ class PlayerAdmin(admin.ModelAdmin):
 	)
 	list_display = ('first_name', 'last_name', 'current_team', 'club_number', 'position', 'dob', 'nationality', 'height', 'weight', 'player_id')
 	list_editable = ('club_number', 'height', 'weight')
+	ordering = ('last_name', 'first_name')
 
 class SeasonAdmin(admin.ModelAdmin):
 	fields = ['competition_id', 'year', 'teams']
 	list_display = ('competition_id', 'year')
+	filter_horizontal = ('teams',)
 
 class StatisticsAdmin(admin.ModelAdmin):
 	fieldsets = (
@@ -49,7 +51,7 @@ class StatisticsAdmin(admin.ModelAdmin):
 	list_display = ('fixture_id', 'player_id')
 
 class TeamAdmin(admin.ModelAdmin):
-	fields = ['name', 'venue']
+	fields = ['name', 'venue', 'crest']
 	list_display = ('name', 'venue', 'team_id')
 
 class VenueAdmin(admin.ModelAdmin):

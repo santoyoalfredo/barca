@@ -140,11 +140,13 @@ $RECYCLE.BIN/
 
 # Database
 *.sqlite3
+barca/settings.py
 
 # Resources
 resources/competitions
 resources/countries
 resources/players
+resources/teams
 
 # Migrations
 migrations/
