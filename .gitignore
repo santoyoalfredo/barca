@@ -147,6 +147,7 @@ resources/competitions
 resources/countries
 resources/players
 resources/teams
+resources/other
 
 # Migrations
 migrations/

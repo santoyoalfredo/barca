@@ -16,13 +16,17 @@ class FixtureAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
 	fieldsets = (
 		(None, {
-			'fields': (('first_name', 'last_name'), 'full_name', 'position', 'dob', ('current_team', 'club_number'), 
+			'fields': (('first_name', 'last_name'), 'full_name', 'positions', 'dob', ('current_team', 'club_number'), 
 				'nationality', ('height', 'weight'), 'portrait')
 		}),
 	)
-	list_display = ('first_name', 'last_name', 'current_team', 'club_number', 'position', 'dob', 'nationality', 'height', 'weight', 'player_id')
+	list_display = ('first_name', 'last_name', 'current_team', 'club_number', 'dob', 'nationality', 'height', 'weight', 'player_id')
 	list_editable = ('club_number', 'height', 'weight')
 	ordering = ('last_name', 'first_name')
+
+class PositionAdmin(admin.ModelAdmin):
+	fields = ['position']
+	list_display = ('position',)
 
 class SeasonAdmin(admin.ModelAdmin):
 	fields = ['competition_id', 'year', 'teams']
@@ -61,6 +65,7 @@ class VenueAdmin(admin.ModelAdmin):
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Fixture, FixtureAdmin)
 admin.site.register(Player, PlayerAdmin)
+admin.site.register(Position, PositionAdmin)
 admin.site.register(Season, SeasonAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(Team, TeamAdmin)

@@ -63,7 +63,7 @@ class Player(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50, default='', blank=True)
 	full_name = models.CharField(max_length=50)
-	position = models.CharField(max_length=3)
+	positions = models.ManyToManyField('Position')
 	club_number = models.IntegerField(default=0)
 	country_number = models.IntegerField(default=0)
 	dob = models.DateField(auto_now=False, auto_now_add=False)	#YYYY-MM-DD
@@ -75,6 +75,13 @@ class Player(models.Model):
 
 	def __str__(self):
 		return '%s %s' % (self.first_name, self.last_name)
+
+class Position(models.Model):
+	position_id = models.AutoField(primary_key=True)
+	position = models.CharField(max_length=3)
+
+	def __str__(self):
+		return '%s' % (self.position)
 
 class Season(models.Model):
 	season_id = models.AutoField(primary_key=True)

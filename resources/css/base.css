@@ -1,9 +1,93 @@
+.img-pitch {
+	max-width: auto;
+	max-height: 69%;
+}
+
 .img-portrait {
 	max-width: auto;
 	max-height: 100px;
 }
 
+.img-portrait-large {
+	max-width: auto;
+	max-height: 300px;
+}
+
 .img-flag {
 	max-width: 80px;
 	max-height: auto;
+}
+
+.pitch {
+	position: relative;
+}
+
+.position-gk {
+	top: 62%;
+	left: 31.5%;
+	position: absolute;
+}
+
+.position-lb {
+	top: 50%;
+	left: 5.5%;
+	position: absolute;
+}
+
+.position-cb1 {
+	top: 50%;
+	left: 22.5%;
+	position: absolute;
+}
+
+.position-cb2 {
+	top: 50%;
+	left: 40.5%;
+	position: absolute;
+}
+
+.position-rb {
+	top: 50%;
+	left: 57.5%;
+	position: absolute;
+}
+
+.position-lm {
+	top: 32.5%;
+	left: 12.5%;
+	position: absolute;
+}
+
+.position-dm {
+	top: 39.5%;
+	left: 31.5%;
+	position: absolute;
+}
+
+.position-am {
+	top: 25.5%;
+	left: 31.5%;
+	position: absolute;
+}
+
+.position-rm {
+	top: 32.5%;
+	left: 48.5%;
+	position: absolute;
+}
+
+.position-lw {
+	top: 15.5%;
+	left: 9.5%;
+	position: absolute;
+}
+.position-fw {
+	top: 13.5%;
+	left: 31.5%;
+	position: absolute;
+}
+.position-rw {
+	top: 15.5%;
+	left: 51.5%;
+	position: absolute;
 }

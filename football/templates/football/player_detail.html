@@ -1,4 +1,68 @@
 {% extends "football/base.html" %}
 {% block content %}
-{{player}}
+{% load static %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            {% if player.portrait %}
+            <img src="{% get_static_prefix %}players/{{player.player_id}}.jpg" class="img-portrait-large img-thumbnail">
+            {% else %}
+            <img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
+            {% endif %}
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                <h2>
+                    {{player.first_name}} {{player.last_name}}
+                    <small class="text-muted">{{player.club_number}}</small>
+                </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                <h4 class="text-muted">{{player.full_name}}</h4>
+                </div>
+                <div class="col">
+                        <img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail">
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                    <h3>{{view.age}} years old</h3>
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                    <h3>{{player.height}} cm <small class="text-muted">{{view.imp_height.0}}'{{view.imp_height.1}}"</small></h3>
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                    <h3>{{player.weight}} Kg <small class="text-muted">{{view.imp_weight}} lbs</small></h3>
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                    </div>
+            </div>
+        </div>
+        <div class="pitch">
+            <img src="{% get_static_prefix %}other/pitch.svg" class="img-thumbnail img-pitch">
+            <div class="position-gk"><span class="badge badge-pill {% if view.positions.0%}badge-primary{%else%}badge-secondary{%endif%}">GK</span></div>
+            <div class="position-lb"><span class="badge badge-pill {% if view.positions.1%}badge-primary{%else%}badge-secondary{%endif%}">LB</span></div>
+            <div class="position-cb1"><span class="badge badge-pill {% if view.positions.2%}badge-primary{%else%}badge-secondary{%endif%}">CB</span></div>
+            <div class="position-cb2"><span class="badge badge-pill {% if view.positions.3%}badge-primary{%else%}badge-secondary{%endif%}">CB</span></div>
+            <div class="position-rb"><span class="badge badge-pill {% if view.positions.4%}badge-primary{%else%}badge-secondary{%endif%}">RB</span></div>
+            <div class="position-lm"><span class="badge badge-pill {% if view.positions.5%}badge-primary{%else%}badge-secondary{%endif%}">LM</span></div>
+            <div class="position-dm"><span class="badge badge-pill {% if view.positions.6%}badge-primary{%else%}badge-secondary{%endif%}">DM</span></div>
+            <div class="position-am"><span class="badge badge-pill {% if view.positions.7%}badge-primary{%else%}badge-secondary{%endif%}">AM</span></div>
+            <div class="position-rm"><span class="badge badge-pill {% if view.positions.8%}badge-primary{%else%}badge-secondary{%endif%}">RM</span></div>
+            <div class="position-lw"><span class="badge badge-pill {% if view.positions.9%}badge-primary{%else%}badge-secondary{%endif%}">LW</span></div>
+            <div class="position-fw"><span class="badge badge-pill {% if view.positions.10%}badge-primary{%else%}badge-secondary{%endif%}">FW</span></div>
+            <div class="position-rw"><span class="badge badge-pill {% if view.positions.11%}badge-primary{%else%}badge-secondary{%endif%}">RW</span></div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
