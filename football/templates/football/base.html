@@ -17,9 +17,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="/">Home</a>
-                    <a class="nav-item nav-link" href="/players/">Players</a>
-                    <a class="nav-item nav-link" href="/competitions/">Competitions</a>
+                    <a class="nav-item nav-link {% block home %}{% endblock home %}" href="/">Home</a>
+                    <a class="nav-item nav-link {% block players %}{% endblock players %}" href="/players/">Players</a>
+                    <a class="nav-item nav-link {% block comps %}{% endblock comps %}" href="/competitions/">Competitions</a>
                     <a class="nav-item nav-link disabled" href="#">Statistics</a>
                   </div>
                 </div>

@@ -1,4 +1,5 @@
 {% extends "football/base.html" %}
+{% block comps %}active{% endblock comps %}
 {% block content %}
 {% load static %}
 
@@ -13,10 +14,11 @@
 </thead>
 {% for competition in view.competitions %}
     <tr>
-        <td>{% if competition.logo %}
+        <td>
+            {% if competition.logo %}
             <img src="{% get_static_prefix %}competitions/{{competition.competition_id}}.png" class="img-portrait img-thumbnail">
             {% else %}
-            <img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
+            <img src="{% static "competitions/0.svg" %}" class="img-portrait img-thumbnail">
             {% endif %}
         </td>
         <td>{{competition.name}}</td>
@@ -27,7 +29,7 @@
                 </button>                     
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     {% for season in competition.seasons.all %}
-                    <a class="dropdown-item" href="#">{{season}}</a>
+                    <a class="dropdown-item" href="#">{{season.years}}</a>
                     {% endfor %}
                 </div>
             </div>

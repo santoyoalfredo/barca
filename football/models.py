@@ -89,6 +89,9 @@ class Season(models.Model):
 	year = models.IntegerField()	#Starting Year
 	teams = models.ManyToManyField('Team')
 
+	def years(self):
+		return '%s-%s' % (self.year, (self.year+1))
+		
 	def __str__(self):
 		return '%s %s-%s' % (self.competition_id, self.year, (self.year+1))
 
