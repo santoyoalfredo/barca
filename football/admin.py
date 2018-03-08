@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import *
 
 class CompetitionAdmin(admin.ModelAdmin):
-	fields = ['name', 'logo']
 	list_display = ('name', 'competition_id')
 
 class FixtureAdmin(admin.ModelAdmin):

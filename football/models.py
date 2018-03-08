@@ -7,6 +7,15 @@ class Competition(models.Model):
 	competition_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
 	logo = models.ImageField(upload_to='resources/competitions/', blank=True, default='')
+	format_choices = (
+		('l', 'League'),
+		('k', 'Knockout'),
+		#('g', 'Grouped'),
+	)
+	competition_format = models.CharField(max_length=1, choices=format_choices, default='l')
+	promotion_limit = models.IntegerField(default=0)
+	qualifying_limit = models.IntegerField(default=0)
+	relegation_limit = models.IntegerField(default=0)
 
 	def __str__(self):
 		return '%s' % (self.name)

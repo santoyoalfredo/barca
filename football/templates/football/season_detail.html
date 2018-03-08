@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
                         {% for standing in view.standings %}
-                            <tr {% if forloop.counter < 5 %}class="table-success"{% elif forloop.counter < 7 %}class="table-warning"{% elif forloop.revcounter < 4 %}class="table-danger"{% endif %}>
+                            <tr {% if forloop.counter <= view.season.competition.promotion_limit %}class="table-success"{% elif forloop.counter <= view.season.competition.qualifying_limit %}class="table-warning"{% elif forloop.revcounter <= view.season.competition.relegation_limit %}class="table-danger"{% endif %}>
                                 <td>{{forloop.counter}}</td>
                                 <td class="align-middle"><img src="{% get_static_prefix %}teams/{{standing.team.venue.country}}/{{standing.team.team_id}}.png" class="img-portrait-small mx-auto d-block"></td>
                                 <td>{{standing.team.name}}</td>
