@@ -29,7 +29,7 @@
                 </button>                     
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     {% for season in competition.seasons.all %}
-                    <a class="dropdown-item" href="#">{{season.years}}</a>
+                    <a class="dropdown-item" href="/seasons/{{season.season_id}}">{{season.years}}</a>
                     {% endfor %}
                 </div>
             </div>

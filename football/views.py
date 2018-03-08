@@ -3,7 +3,7 @@ from django.views import generic
 from datetime import date
 
 # Create your views here.
-from .models import Competition, Player, Position, Statistics, Team
+from .models import *
 
 class CompetitionListView(generic.ListView):
 	model = Competition
@@ -42,5 +42,16 @@ class PlayerView(generic.DetailView):
 			else: positions.append(0)
 		return positions
 
+class SeasonView(generic.TemplateView):
+	model = Season
+	template_name = 'football/season_detail.html'
+
+	def season(self):
+		season = self.kwargs['season_id']
+		return Season.objects.get(pk=season)
+
+	def standings(self):
+		return TeamStanding.objects.filter(season=self.kwargs['season_id']).order_by('-points','-goal_difference','-goals_forced')
+	
 def index(request):
 	return render(request, 'football/index.html')

@@ -54,9 +54,13 @@ class StatisticsAdmin(admin.ModelAdmin):
 	)
 	list_display = ('fixture_id', 'player_id')
 
+class TeamStandingAdmin(admin.ModelAdmin):
+	pass
+
 class TeamAdmin(admin.ModelAdmin):
 	fields = ['name', 'venue', 'crest']
 	list_display = ('name', 'venue', 'team_id')
+	ordering = ('name',)
 
 class VenueAdmin(admin.ModelAdmin):
 	fields = ['name', 'city', 'country', 'altitude']
@@ -69,4 +73,5 @@ admin.site.register(Position, PositionAdmin)
 admin.site.register(Season, SeasonAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(Team, TeamAdmin)
+admin.site.register(TeamStanding, TeamStandingAdmin)
 admin.site.register(Venue, VenueAdmin)

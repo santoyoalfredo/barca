@@ -8,6 +8,10 @@
 	max-height: 100px;
 }
 
+.img-portrait-small {
+	max-width: 25px;
+	max-height: 25px;
+}
 .img-portrait-large {
 	max-width: auto;
 	max-height: 300px;
