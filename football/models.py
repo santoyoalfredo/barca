@@ -36,10 +36,10 @@ class Fixture(models.Model):
 		('SUN', 'Sunny'),
 		)
 	weather = models.CharField(max_length=3, choices=weather_choices, default='CLE')
-	temperature = models.DecimalField(max_digits=3, decimal_places=1)	#Celsius
+	temperature = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)	#Celsius
 	windchill = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)	#Celsius
-	humidity = models.IntegerField()
-	pressure = models.IntegerField() #hPa
+	humidity = models.IntegerField(null=True, blank=True)
+	pressure = models.IntegerField(null=True, blank=True) #hPa
 	wind_direction_choices = (
 		('N', 'North'),
 		('NNE', 'North-Northeast'),
@@ -61,7 +61,7 @@ class Fixture(models.Model):
 		('C', 'Calm')
 		)
 	wind_direction = models.CharField(max_length=3, choices=wind_direction_choices, default='C')
-	wind_speed = models.DecimalField(max_digits=3, decimal_places=1) #km/H
+	wind_speed = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True) #km/H
 	home_score = models.IntegerField(default=0)
 	away_score = models.IntegerField(default=0)
 	extra_time = models.BooleanField(default=False)
