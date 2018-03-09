@@ -25,7 +25,7 @@ class Fixture(models.Model):
 	season_id = models.ForeignKey('Season', on_delete=models.SET_NULL, null=True)
 	home_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, related_name="home_team")
 	away_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, related_name="away_team")
-	location = models.ForeignKey('Venue', on_delete=models.SET_NULL, null=True)
+	location = models.ForeignKey('Venue', on_delete=models.SET_NULL, null=True, blank=True)
 	date = models.DateField(auto_now=False, auto_now_add=False)
 	time = models.TimeField(auto_now=False, auto_now_add=False)
 	weather_choices = (
@@ -68,10 +68,13 @@ class Fixture(models.Model):
 	penalty_shootout = models.BooleanField(default=False)
 
 	def save(self, *args, **kwargs):
+		if not self.location:
+			self.location = self.home_team.venue
+		super().save(*args, **kwargs) # Call the "real" save() method
+
 		home_standing = TeamStanding.objects.save_standing(self.season_id, self.home_team)
 		# create_away_team_standing_instance_without_streaks
 		away_standing = TeamStanding.objects.save_standing(self.season_id, self.away_team)
-		super().save(*args, **kwargs) # Call the "real" save() method
 
 	def __str__(self):
 		return '%s - %s - %s %d-%d %s' % (self.season_id, self.date, self.home_team, self.home_score, self.away_score, self.away_team)
@@ -111,7 +114,7 @@ class Season(models.Model):
 		return '%s-%s' % (self.year, (self.year+1))
 		
 	def __str__(self):
-		return '%s %s-%s' % (self.competition_id, self.year, (self.year+1))
+		return '%s %s-%s' % (self.competition.name, self.year, (self.year+1))
 
 class TeamStandingManager(models.Manager):
 	def save_standing(self, season, team):
@@ -140,7 +143,7 @@ class TeamStandingManager(models.Manager):
 					team_standing.overtime_wins += 1
 				team_standing.wins += 1
 				team_standing.points += 3
-			elif (fixture.away_team == team and fixture.home_score < fixture.away_score) or (fixture.away_team == team and fixture.away_score < fixture.home_score):
+			elif (fixture.away_team == team and fixture.home_score > fixture.away_score) or (fixture.home_team == team and fixture.away_score > fixture.home_score):
 				if(fixture.extra_time == True):
 					team_standing.overtime_losses += 1
 				team_standing.losses += 1

@@ -11,6 +11,8 @@ class FixtureAdmin(admin.ModelAdmin):
 	 'time', 'date', 'weather', 'temperature', 'windchill', 'humidity', 'pressure', 'wind_direction', 'wind_speed']
 	list_display = ('fixture_id' , 'home_team', 'home_score', 'away_team', 'away_score', 'date', 'season_id')
 	list_editable = ('home_score', 'away_score')
+	list_filter = ('season_id',)
+	search_fields = ['home_team__name', 'away_team__name']
 
 class PlayerAdmin(admin.ModelAdmin):
 	fieldsets = (
