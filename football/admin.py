@@ -12,6 +12,7 @@ class FixtureAdmin(admin.ModelAdmin):
 	list_display = ('fixture_id' , 'home_team', 'home_score', 'away_team', 'away_score', 'date', 'season_id')
 	list_editable = ('home_score', 'away_score')
 	list_filter = ('season_id',)
+	ordering = ('season_id', 'date')
 	search_fields = ['home_team__name', 'away_team__name']
 
 class PlayerAdmin(admin.ModelAdmin):

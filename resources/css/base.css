@@ -95,3 +95,23 @@
 	left: 51.5%;
 	position: absolute;
 }
+
+/* .custom-file-input ~ .custom-file-label:lang(en)::after {
+	content: "Click";
+}
+  
+.custom-file-input ~ .custom-file-label:lang(en)::before {
+	content: "Choose file...";
+} */
+  
+/*when a value is selected, this class removes the content */
+.custom-file-label.selected:lang(en)::before {
+	content: "" !important;
+}
+  
+.custom-file {
+	overflow: hidden;
+}
+.custom-file-control {
+	white-space: nowrap;
+}

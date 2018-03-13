@@ -1,0 +1,64 @@
+{% extends "football/base.html" %}
+{% block comps %}active{% endblock comps %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="container-fluid">
+    <form enctype="multipart/form-data" action={% url 'competitionsadd' %} method="post">{% csrf_token %}
+        <div class="form-group">
+            <label>Name: </label>
+            {{form.name|attr:"placeholder:Competition name"|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+            <label>Logo: </label>
+            <div class="custom-file">
+                {{form.logo|add_class:"custom-file-input"}}
+                <!-- <input type="file" class="custom-file-input" id="customFile"> -->
+                <label class="custom-file-label" for="customFile">Select a file</label>
+            </div>
+            {% if form.logo.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{form.logo.errors.0}}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label>Competition Format: </label>
+            {{form.competition_format|add_class:"form-control"}}
+            <small id="promotion_limit_help_block" class="form-text text-muted">
+                    League (Double round-robin), Knockout (Single elimination, two fixtures per round except final)
+            </small>
+        </div>
+        <div class="form-group">
+            <label>Promotion Limit: </label>
+            {{form.promotion_limit|add_class:"form-control"}}
+            <small id="promotion_limit_help_block" class="form-text text-muted">
+                Final position for league promotion or competition entry
+            </small>
+        </div>
+        <div class="form-group">
+            <label>Qualifying Limit: </label>
+            {{form.qualifying_limit|add_class:"form-control"}}
+            <small id="qualifying_limit_help_block" class="form-text text-muted">
+                Final position for competition entry or qualification
+            </small>
+        </div>
+        <div class="form-group">
+            <label>Relegation Limit: </label>
+            {{form.relegation_limit|add_class:"form-control"}}
+            <small id="relegation_limit_help_block" class="form-text text-muted">
+                Number of relegation spots
+            </small>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </form>
+</div>
+
+<script>
+$('.custom-file-input').on('change',function(){
+    let fileName = $(this).val().split('\\').pop(); 
+    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+  })
+</script>
+{% endblock content %}

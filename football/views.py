@@ -1,9 +1,21 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic.edit import *
 from datetime import date
 
 # Create your views here.
 from .models import *
+from .forms import *
+
+class CompetitionAddView(FormView):
+	template_name = 'football/competitions_add.html'
+	form_class = CompetitionAddForm
+	success_url = reverse_lazy('competitions')
+
+	def form_valid(self, form):
+		form.add_competition()
+		return super().form_valid(form)
 
 class CompetitionListView(generic.ListView):
 	model = Competition

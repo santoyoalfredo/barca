@@ -9,5 +9,6 @@ urlpatterns = [
     path('players/', views.PlayerListView.as_view(), name='players'),
     path('players/<int:pk>/', views.PlayerView.as_view(), name='player'),
     path('competitions/', views.CompetitionListView.as_view(), name='competitions'),
+    path('competitions/add', views.CompetitionAddView.as_view(), name='competitionsadd'),
     path('seasons/<season_id>/', views.SeasonView.as_view(), name='season')
 ]
