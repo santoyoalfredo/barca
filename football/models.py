@@ -124,17 +124,15 @@ class Player(models.Model):
 
 	def save(self, *args, **kwargs):
 		super().save(*args, **kwargs) # Call the "real" save() method
-		filename = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-1]
-		name = filename.rpartition('.')[0]
-		print(name[0])
-		if not name[0]:
-			pass
-		elif not name[0] == self.player_id:	#Check if the file is correctly named
-			old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
-			self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
-			new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
-			super().save(*args, **kwargs)
-			os.replace(old_file, new_file)
+		if self.portrait.name:
+			filename = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-1]
+			name = filename.rpartition('.')[0]
+			if not name[0] == self.player_id:	#Check if the file is correctly named
+				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
+				self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
+				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
+				super().save(*args, **kwargs)
+				os.replace(old_file, new_file)
 
 	def __str__(self):
 		return '%s %s' % (self.first_name, self.last_name)
@@ -239,6 +237,7 @@ class TeamStanding(models.Model):
 	def __str__(self):
 		return "%s - %s" % (self.season, self.team)
 
+#Add automatic renaming for Crest
 class Team(models.Model):
 	def team_path(instance, filename):
 		return 'teams/{0}/{1}.{2}'.format(instance.venue.country, instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])

@@ -5,11 +5,11 @@ from .models import *
 class CompetitionAddForm(ModelForm):
     class Meta:
         model = Competition
-        fields = ['name', 'logo', 'competition_format', 'promotion_limit', 'qualifying_limit', 'relegation_limit']
+        fields = ['competition_id', 'name', 'logo', 'competition_format', 'promotion_limit', 'qualifying_limit', 'relegation_limit']
 
     def clean_logo(self):
         logo = self.cleaned_data['logo']
-        if not (logo.name == 'None'):
+        if logo:
             if not(logo.content_type == 'image/jpeg' or logo.content_type == 'image/png'):
                 raise ValidationError(
                     ('Invalid file type. Please use a .jpg or .png file.'),
@@ -19,8 +19,29 @@ class CompetitionAddForm(ModelForm):
         return logo
 
     def clean(self):
-        print(self.cleaned_data)
+        pass
 
     def add_competition(self):
-        #save model instance to database
+        self.save()
+
+class PlayerAddForm(ModelForm):
+    class Meta:
+        model = Player
+        fields = ['player_id', 'first_name', 'last_name', 'full_name', 'primary_positions', 'secondary_positions', 'club_number', 'country_number', 'dob', 'nationality', 'current_team', 'height', 'weight', 'portrait']
+
+    def clean_logo(self):
+        logo = self.cleaned_data['portrait']
+        if logo:
+            if not(logo.content_type == 'image/jpeg' or logo.content_type == 'image/png'):
+                raise ValidationError(
+                    ('Invalid file type. Please use a .jpg or .png file.'),
+                    code='invalid'
+                )
+
+        return logo
+
+    def clean(self):
         pass
+
+    def add_player(self):
+        self.save()

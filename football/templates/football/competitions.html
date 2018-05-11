@@ -19,7 +19,7 @@
             {% if competition.logo %}
             <img src="{% get_media_prefix %}{{competition.logo}}" class="img-portrait img-thumbnail">
             {% else %}
-            <img src="{% static "competitions/0.svg" %}" class="img-portrait img-thumbnail">
+            <img src="{% get_static_prefix %}other/competition.svg" class="img-portrait img-thumbnail">
             {% endif %}
         </td>
         <td>{{competition.name}}</td>

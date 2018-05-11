@@ -1,0 +1,10 @@
+{% extends "football/base.html" %}
+{% block players %}active{% endblock players %}
+{% block content %}
+<div class="container-fluid">
+    <form method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+</div>
+{% endblock content %}
