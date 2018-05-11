@@ -5,7 +5,7 @@
 {% load widget_tweaks %}
 
 <div class="container-fluid">
-    <form enctype="multipart/form-data" action={% url 'competitionsadd' %} method="post">{% csrf_token %}
+    <form enctype="multipart/form-data" method="post">{% csrf_token %}
         <div class="form-group">
             <label>Name: </label>
             {{form.name|attr:"placeholder:Competition name"|add_class:"form-control"}}
@@ -13,9 +13,9 @@
         <div class="form-group">
             <label>Logo: </label>
             <div class="custom-file">
-                {{form.logo|add_class:"custom-file-input"}}
+                {{form.logo}}
                 <!-- <input type="file" class="custom-file-input" id="customFile"> -->
-                <label class="custom-file-label" for="customFile">Select a file</label>
+                <!-- <label class="custom-file-label" for="customFile">Select a file</label> -->
             </div>
             {% if form.logo.errors %}
                 <div class="alert alert-danger" role="alert">

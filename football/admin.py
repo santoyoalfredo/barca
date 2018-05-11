@@ -18,7 +18,7 @@ class FixtureAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
 	fieldsets = (
 		(None, {
-			'fields': (('first_name', 'last_name'), 'full_name', 'positions', 'dob', ('current_team', 'club_number'), 
+			'fields': (('first_name', 'last_name'), 'full_name', 'primary_positions', 'secondary_positions', 'dob', ('current_team', 'club_number'), 
 				'nationality', ('height', 'weight'), 'portrait')
 		}),
 	)

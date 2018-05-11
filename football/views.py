@@ -15,7 +15,21 @@ class CompetitionAddView(FormView):
 
 	def form_valid(self, form):
 		form.add_competition()
+		print('Added competition')
 		return super().form_valid(form)
+
+class CompetitionEditView(UpdateView):
+	model = Competition
+	template_name = 'football/competitions_add.html'
+	form_class = CompetitionAddForm
+	success_url = reverse_lazy('competitions')
+
+	def form_valid(self, form):
+		return super().form_valid(form)
+
+class CompetitionDeleteView(DeleteView):
+	model = Competition
+	success_url = reverse_lazy('competitions')
 
 class CompetitionListView(generic.ListView):
 	model = Competition
@@ -47,12 +61,10 @@ class PlayerView(generic.DetailView):
 	def imp_weight(self):
 		return int(self.object.weight * 2.20462)
 
-	def positions(self):
-		positions = []
-		for pos in Position.objects.all():
-			if (self.object.positions.filter(position=pos)) : positions.append(1)
-			else: positions.append(0)
-		return positions
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['positions'] = list(Position.objects.all().order_by('position'))
+		return context
 
 class SeasonView(generic.TemplateView):
 	model = Season

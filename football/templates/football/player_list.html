@@ -16,14 +16,14 @@
 {% for player in view.players %}
     <tr>
         <td>{% if player.portrait %}
-            <img src="{% get_static_prefix %}players/{{player.player_id}}.jpg" class="img-portrait img-thumbnail">
+            <img src="{% get_media_prefix %}{{player.portrait}}" class="img-portrait img-thumbnail">
             {% else %}
             <img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
             {% endif %}
         </td>
         <td><a href="{{player.player_id}}/">{{player.first_name}} {{player.last_name}}</a></td>
         <td><img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail"></td>
-        <td><img src="{% get_static_prefix %}teams/{{player.current_team.venue.country}}/{{player.current_team.team_id}}.png" class="img-portrait mx-auto d-block"></td>
+        <td><img src="{% get_media_prefix %}{{player.current_team.crest}}" class="img-portrait mx-auto d-block"></td>
         <td>#{{player.club_number}}</td>
     </tr>
 {% endfor %}       

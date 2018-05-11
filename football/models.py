@@ -1,12 +1,19 @@
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Q
+import os
 
 # Create your models here.
+
+#Add automatic renaming for Competition Logo
 class Competition(models.Model):
+	def competition_path(instance, filename):
+		return 'competitions/{0}.{1}'.format(instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 	competition_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
-	logo = models.ImageField(upload_to='resources/competitions/', blank=True, default='')
+	logo = models.ImageField(upload_to=competition_path, blank=True, default='')
 	format_choices = (
 		('l', 'League'),
 		('k', 'Knockout'),
@@ -79,12 +86,31 @@ class Fixture(models.Model):
 	def __str__(self):
 		return '%s - %s - %s %d-%d %s' % (self.season_id, self.date, self.home_team, self.home_score, self.away_score, self.away_team)
 
+class PlayerManager(models.Manager):
+	def rename_player(self, player_id, filename):
+		player = Player.objects.get(pk=player_id)
+		return 'players/{0}/{1}.{2}'.format(player.nationality, player_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 class Player(models.Model):
+	def player_path(instance, filename):
+		if filename:
+			if instance.player_id:
+				return 'players/{0}/{1}.{2}'.format(instance.nationality, instance.player_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+			else:
+				return 'players/{0}/{1}'.format(instance.nationality, filename)
+		else:
+			return ''
+
 	player_id = models.AutoField(primary_key=True)
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50, default='', blank=True)
 	full_name = models.CharField(max_length=50)
-	positions = models.ManyToManyField('Position')
+	primary_positions = models.ManyToManyField(
+		'Position',
+		related_name="primary_positions")
+	secondary_positions = models.ManyToManyField(
+		'Position',
+		related_name="secondary_positions", blank=True)
 	club_number = models.IntegerField(default=0)
 	country_number = models.IntegerField(default=0)
 	dob = models.DateField(auto_now=False, auto_now_add=False)	#YYYY-MM-DD
@@ -92,7 +118,23 @@ class Player(models.Model):
 	current_team = models.ForeignKey('Team', on_delete=models.SET_DEFAULT, blank=True, default='')
 	height = models.IntegerField()	#Centimeters
 	weight = models.IntegerField()	#Kilograms
-	portrait = models.ImageField(upload_to='resources/players/', null=True, blank=True, default='')
+	portrait = models.ImageField(upload_to=player_path, null=True, blank=True)
+
+	objects = PlayerManager()
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		filename = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-1]
+		name = filename.rpartition('.')[0]
+		print(name[0])
+		if not name[0]:
+			pass
+		elif not name[0] == self.player_id:	#Check if the file is correctly named
+			old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
+			self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
+			new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
+			super().save(*args, **kwargs)
+			os.replace(old_file, new_file)
 
 	def __str__(self):
 		return '%s %s' % (self.first_name, self.last_name)
@@ -198,9 +240,12 @@ class TeamStanding(models.Model):
 		return "%s - %s" % (self.season, self.team)
 
 class Team(models.Model):
+	def team_path(instance, filename):
+		return 'teams/{0}/{1}.{2}'.format(instance.venue.country, instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 	team_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
-	crest = models.ImageField(upload_to='resources/teams', null=True, blank=True, default='')
+	crest = models.ImageField(upload_to=team_path, null=True, blank=True, default='')
 	venue = models.ForeignKey('Venue', on_delete=models.SET_DEFAULT, blank=True, default='')
 
 	def __str__(self):

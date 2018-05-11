@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-3">
             {% if player.portrait %}
-            <img src="{% get_static_prefix %}players/{{player.player_id}}.jpg" class="img-portrait-large img-thumbnail">
+            <img src="{% get_media_prefix %}{{player.portrait}}" class="img-portrait-large img-thumbnail">
             {% else %}
             <img src="{% static "players/0.png" %}" class="img-portrait img-thumbnail">
             {% endif %}
@@ -49,20 +49,43 @@
                     </div>
             </div>
         </div>
-        <div class="pitch">
-            <img src="{% get_static_prefix %}other/pitch.svg" class="img-thumbnail img-pitch">
-            <div class="position-gk"><span class="badge badge-pill {% if view.positions.0%}badge-primary{%else%}badge-secondary{%endif%}">GK</span></div>
-            <div class="position-lb"><span class="badge badge-pill {% if view.positions.1%}badge-primary{%else%}badge-secondary{%endif%}">LB</span></div>
-            <div class="position-cb1"><span class="badge badge-pill {% if view.positions.2%}badge-primary{%else%}badge-secondary{%endif%}">CB</span></div>
-            <div class="position-cb2"><span class="badge badge-pill {% if view.positions.3%}badge-primary{%else%}badge-secondary{%endif%}">CB</span></div>
-            <div class="position-rb"><span class="badge badge-pill {% if view.positions.4%}badge-primary{%else%}badge-secondary{%endif%}">RB</span></div>
-            <div class="position-lm"><span class="badge badge-pill {% if view.positions.5%}badge-primary{%else%}badge-secondary{%endif%}">LM</span></div>
-            <div class="position-dm"><span class="badge badge-pill {% if view.positions.6%}badge-primary{%else%}badge-secondary{%endif%}">DM</span></div>
-            <div class="position-am"><span class="badge badge-pill {% if view.positions.7%}badge-primary{%else%}badge-secondary{%endif%}">AM</span></div>
-            <div class="position-rm"><span class="badge badge-pill {% if view.positions.8%}badge-primary{%else%}badge-secondary{%endif%}">RM</span></div>
-            <div class="position-lw"><span class="badge badge-pill {% if view.positions.9%}badge-primary{%else%}badge-secondary{%endif%}">LW</span></div>
-            <div class="position-fw"><span class="badge badge-pill {% if view.positions.10%}badge-primary{%else%}badge-secondary{%endif%}">FW</span></div>
-            <div class="position-rw"><span class="badge badge-pill {% if view.positions.11%}badge-primary{%else%}badge-secondary{%endif%}">RW</span></div>
+        <div>
+            <table class="table table-sm pitch pitchcell">
+                <tr>
+                    <!-- LW | SS | RW -->
+                    <td rowspan="2" class="pitchcell {% if positions.8 in player.primary_positions.all %}primary-forward{% elif positions.8 in player.secondary_positions.all %}secondary-forward{% else %}position-null{% endif %}"></td>
+                    <td class="pitchcell {% if positions.12 in player.primary_positions.all %}primary-forward{% elif positions.12 in player.secondary_positions.all %}secondary-forward{% else %}position-null{% endif %}" width="45%" ></td>
+                    <td rowspan="2" class="pitchcell {% if positions.11 in player.primary_positions.all %}primary-forward{% elif positions.11 in player.secondary_positions.all %}secondary-forward{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- CF -->
+                    <td class="pitchcell {% if positions.2 in player.primary_positions.all %}primary-forward{% elif positions.2 in player.secondary_positions.all %}secondary-forward{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- LM | AM | RM -->
+                    <td rowspan="3" class="pitchcell {% if positions.7 in player.primary_positions.all %}primary-midfield{% elif positions.7 in player.secondary_positions.all %}secondary-midfield{% else %}position-null{% endif %}"></td>
+                    <td class="pitchcell {% if positions.0 in player.primary_positions.all %}primary-midfield{% elif positions.0 in player.secondary_positions.all %}secondary-midfield{% else %}position-null{% endif %}"></td>
+                    <td rowspan="3" class="pitchcell {% if positions.10 in player.primary_positions.all %}primary-midfield{% elif positions.10 in player.secondary_positions.all %}secondary-midfield{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- CM -->
+                    <td class="pitchcell {% if positions.3 in player.primary_positions.all %}primary-midfield{% elif positions.3 in player.secondary_positions.all %}secondary-midfield{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- DM -->
+                    <td class="pitchcell {% if positions.4 in player.primary_positions.all %}primary-midfield{% elif positions.4 in player.secondary_positions.all %}secondary-midfield{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- LB | CB | RB -->
+                    <td rowspan="2" class="pitchcell {% if positions.6 in player.primary_positions.all %}primary-defense{% elif positions.6 in player.secondary_positions.all %}secondary-defense{% else %}position-null{% endif %}"></td>
+                    <td class="pitchcell {% if positions.1 in player.primary_positions.all %}primary-defense{% elif positions.1 in player.secondary_positions.all %}secondary-defense{% else %}position-null{% endif %}"></td>
+                    <td rowspan="2" class="pitchcell {% if positions.9 in player.primary_positions.all %}primary-defense{% elif positions.9 in player.secondary_positions.all %}secondary-defense{% else %}position-null{% endif %}"></td>
+                </tr>
+                <tr>
+                    <!-- GK -->
+                    <td class="pitchcell {% if positions.5 in player.primary_positions.all %}primary-goalkeeper{% elif positions.5 in player.secondary_positions.all %}secondary-goalkeeper{% else %}position-null{% endif %}"></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
