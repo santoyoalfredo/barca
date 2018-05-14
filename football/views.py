@@ -95,10 +95,9 @@ class SeasonView(generic.TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['season'] = Season.objects.get(pk=context['pk'])
+		context['standings'] = TeamStanding.objects.filter(season=self.kwargs['pk']).order_by('-points','-goal_difference','-goals_forced')
+		context['fixtures'] = Fixture.objects.filter(season_id=self.kwargs['pk']).order_by('date','time', 'home_team')
 		return context
-
-	def standings(self):
-		return TeamStanding.objects.filter(season=self.kwargs['pk']).order_by('-points','-goal_difference','-goals_forced')
 	
 class SeasonAddView(FormView):
 	template_name = 'football/season_add.html'

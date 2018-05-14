@@ -22,8 +22,10 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <div class="navbar-nav">
                     <a class="nav-item nav-link {% block home %}{% endblock home %}" href="/">Home</a>
-                    <a class="nav-item nav-link {% block players %}{% endblock players %}" href="/players/">Players</a>
-                    <a class="nav-item nav-link {% block comps %}{% endblock comps %}" href={% url 'competitions' %}>Competitions</a>
+                    <a class="nav-item nav-link {% block players %}{% endblock players %}" aria-current="page" href="/players/">Players</a>
+                    {% block player %}{% endblock player %}
+                    <a class="nav-item nav-link {% block comps %}{% endblock comps %}" aria-current="page" href="/competitions/">Competitions</a>
+                    {% block season %}{% endblock season %}
                     <a class="nav-item nav-link disabled" href="#">Statistics</a>
                   </div>
                 </div>
