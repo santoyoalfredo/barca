@@ -45,3 +45,14 @@ class PlayerAddForm(ModelForm):
 
     def add_player(self):
         self.save()
+
+class SeasonAddForm(ModelForm):
+    class Meta:
+        model = Season
+        fields = ['season_id', 'competition', 'year', 'teams']
+
+    def clean(self):
+        pass
+
+    def add_season(self):
+        self.save()

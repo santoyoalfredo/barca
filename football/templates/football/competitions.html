@@ -25,13 +25,16 @@
         <td>{{competition.name}}</td>
         <td>
             <div class="dropdown show">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {% if not competition.seasons.all %}disabled{% endif %}>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     View Seasons 
                 </button>                     
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    {% for season in competition.seasons.all %}
-                    <a class="dropdown-item" href="{% url 'season' competition.competition_id season.season_id %}">{{season.years}}</a>
-                    {% endfor %}
+                    {% if competition.seasons.all %}
+                        {% for season in competition.seasons.all %}
+                        <a class="dropdown-item" href="{% url 'season' competition.competition_id season.season_id %}">{{season.years}}</a>
+                        {% endfor %}
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'seasonsadd' competition.competition_id %}">Add a Season</a>
                 </div>
             </div>
         </td>
@@ -45,6 +48,7 @@
 {% endfor %}  
 </table>
 </div>
-<a href="{% url 'competitionsadd' %}" role="button" class="btn btn-primary">Add Competition</button>
-
+<div class="container-fluid">
+    <a href="{% url 'competitionsadd' %}" role="button" class="btn btn-primary">Add Competition</a>
+</div>
 {% endblock content %}

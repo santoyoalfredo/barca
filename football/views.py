@@ -9,7 +9,7 @@ from .models import *
 from .forms import *
 
 class CompetitionAddView(FormView):
-	template_name = 'football/competitions_add.html'
+	template_name = 'football/competition_add.html'
 	form_class = CompetitionAddForm
 	success_url = reverse_lazy('competitions')
 
@@ -20,7 +20,7 @@ class CompetitionAddView(FormView):
 
 class CompetitionEditView(UpdateView):
 	model = Competition
-	template_name = 'football/competitions_add.html'
+	template_name = 'football/competition_add.html'
 	form_class = CompetitionAddForm
 	success_url = reverse_lazy('competitions')
 
@@ -66,16 +66,64 @@ class PlayerView(generic.DetailView):
 		context['positions'] = list(Position.objects.all().order_by('position'))
 		return context
 
+class PlayerAddView(FormView):
+	template_name = 'football/player_add.html'
+	form_class = PlayerAddForm
+	success_url = reverse_lazy('players')
+
+	def form_valid(self, form):
+		form.add_player()
+		return super().form_valid(form)
+
+class PlayerEditView(UpdateView):
+	model = Player
+	template_name = 'football/player_add.html'
+	form_class = PlayerAddForm
+	success_url = reverse_lazy('players')
+
+	def form_valid(self, form):
+		return super().form_valid(form)
+
+class PlayerDeleteView(DeleteView):
+	model = Player
+	success_url = reverse_lazy('players')
+
 class SeasonView(generic.TemplateView):
 	model = Season
 	template_name = 'football/season_detail.html'
 
-	def season(self):
-		season = self.kwargs['season_id']
-		return Season.objects.get(pk=season)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['season'] = Season.objects.get(pk=context['pk'])
+		return context
 
 	def standings(self):
-		return TeamStanding.objects.filter(season=self.kwargs['season_id']).order_by('-points','-goal_difference','-goals_forced')
+		return TeamStanding.objects.filter(season=self.kwargs['pk']).order_by('-points','-goal_difference','-goals_forced')
 	
+class SeasonAddView(FormView):
+	template_name = 'football/season_add.html'
+	form_class = SeasonAddForm
+	success_url = reverse_lazy('competitions')
+
+	def form_valid(self, form):
+		form.add_season()
+		return super().form_valid(form)
+
+	def get_initial(self):
+		return {'competition': self.kwargs['competition_id']}
+
+class SeasonEditView(UpdateView):
+	model = Season
+	template_name = 'football/season_add.html'
+	form_class = SeasonAddForm
+	success_url = reverse_lazy('season')
+
+	def form_valid(self, form):
+		return super().form_valid(form)
+
+class SeasonDeleteView(DeleteView):
+	model = Season
+	success_url = reverse_lazy('competitions')
+
 def index(request):
 	return render(request, 'football/index.html')
