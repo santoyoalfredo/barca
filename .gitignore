@@ -148,6 +148,7 @@ resources/countries
 resources/players
 resources/teams
 resources/other
+resources/venues
 
 # Migrations
 migrations/

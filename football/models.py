@@ -4,10 +4,20 @@ from django.db import models
 from django.db.models import Q
 import os
 
-#Add automatic renaming for Competition Logo
+class CompetitionManager(models.Manager):
+	def rename_competition(self, competition_id, filename):
+		competition = Competition.objects.get(pk=competition_id)
+		return 'competitions/{0}.{1}'.format(competition.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 class Competition(models.Model):
 	def competition_path(instance, filename):
-		return 'competitions/{0}.{1}'.format(instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+		if filename:
+			if instance.competition_id:
+				return 'competitions/{0}.{1}'.format(instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+			else:
+				return 'competitions/{0}/{1}'.format(instance.name, filename)
+		else:
+			return ''
 
 	competition_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
@@ -21,6 +31,20 @@ class Competition(models.Model):
 	promotion_limit = models.IntegerField(default=0)
 	qualifying_limit = models.IntegerField(default=0)
 	relegation_limit = models.IntegerField(default=0)
+
+	objects = CompetitionManager()
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		if self.logo.name:
+			filename = self.logo.name.rpartition('/')[len(self.logo.name.rpartition('/'))-1]
+			name = filename.rpartition('.')[0]
+			if not name[0] == self.name:	#Check if the file is correctly named
+				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
+				self.logo.name = Competition.objects.rename_competition(self.competition_id, self.logo.name)
+				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
+				super().save(*args, **kwargs)
+				os.replace(old_file, new_file)
 
 	def __str__(self):
 		return '%s' % (self.name)
