@@ -1,13 +1,7 @@
-.img-pitch {
-	max-width: auto;
-	max-height: 69%;
-}
-
 .img-portrait {
-	max-width: auto;
+	max-width: 100%;
 	max-height: 100px;
 }
-
 .img-portrait-small {
 	max-width: 25px;
 	max-height: 25px;
@@ -16,10 +10,12 @@
 	max-width: auto;
 	max-height: 300px;
 }
-
 .img-flag {
-	max-width: 80px;
-	max-height: auto;
+	max-width: 100%;
+	max-height: 50px;
+}
+.player-table {
+	display: block;
 }
 
 .pitch {

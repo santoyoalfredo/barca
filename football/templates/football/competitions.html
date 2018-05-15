@@ -4,51 +4,55 @@
 {% load static %}
 
 <div class="container-fluid">
-<table class="table table-striped">
-<thead>
-    <tr>
-        <td></td>
-        <td>Name</td>
-        <td>Season</td>
-        <td></td>
-    </tr>
-</thead>
-{% for competition in view.competitions %}
-    <tr>
-        <td>
-            {% if competition.logo %}
-            <img src="{% get_media_prefix %}{{competition.logo}}" class="img-portrait img-thumbnail">
-            {% else %}
-            <img src="{% get_static_prefix %}other/competition.svg" class="img-portrait img-thumbnail">
-            {% endif %}
-        </td>
-        <td>{{competition.name}}</td>
-        <td>
-            <div class="dropdown show">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    View Seasons 
-                </button>                     
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    {% if competition.seasons.all %}
-                        {% for season in competition.seasons.all %}
-                        <a class="dropdown-item" href="{% url 'season' competition.competition_id season.season_id %}">{{season.years}}</a>
-                        {% endfor %}
-                    {% endif %}
-                    <a class="dropdown-item" href="{% url 'seasonsadd' competition.competition_id %}">Add a Season</a>
-                </div>
-            </div>
-        </td>
-        <td>
-            <a href="{% url 'competitionsedit' competition.competition_id %}" role="button" class="btn btn-primary">Edit</button>
-        </td>
-        <td>
-            <a href="{% url 'competitionsdelete' competition.competition_id %}" role="button" class="btn btn-danger">Delete</button>
-        </td>
-    </tr>
-{% endfor %}  
-</table>
-</div>
-<div class="container-fluid">
-    <a href="{% url 'competitionsadd' %}" role="button" class="btn btn-primary">Add Competition</a>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Name</td>
+                    <td>Season</td>
+                    <td></td>
+                </tr>
+            </thead>
+            {% for competition in view.competitions %}
+                <tr>
+                    <td class="text-center">
+                        {% if competition.logo %}
+                        <img src="{% get_media_prefix %}{{competition.logo}}" class="img-portrait img-thumbnail">
+                        {% else %}
+                        <img src="{% get_static_prefix %}other/competition.svg" class="img-portrait img-thumbnail">
+                        {% endif %}
+                    </td>
+                    <td>{{competition.name}}</td>
+                    <td>
+                        <div class="dropdown show">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                View Seasons 
+                            </button>                     
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                {% if competition.seasons.all %}
+                                    {% for season in competition.seasons.all %}
+                                    <a class="dropdown-item" href="{% url 'season' competition.competition_id season.season_id %}">{{season.years}}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                <a class="dropdown-item" href="{% url 'seasonsadd' competition.competition_id %}">Add a Season</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{% url 'competitionsedit' competition.competition_id %}" role="button" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'competitionsdelete' competition.competition_id %}" role="button" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}  
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <a href="{% url 'competitionsadd' %}" role="button" class="btn btn-primary">Add Competition</a>
+    </div>
 </div>
 {% endblock content %}
