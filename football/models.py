@@ -4,8 +4,6 @@ from django.db import models
 from django.db.models import Q
 import os
 
-# Create your models here.
-
 #Add automatic renaming for Competition Logo
 class Competition(models.Model):
 	def competition_path(instance, filename):
@@ -84,7 +82,7 @@ class Fixture(models.Model):
 		away_standing = TeamStanding.objects.save_standing(self.season_id, self.away_team)
 
 	def __str__(self):
-		return '%s - %s - %s %d-%d %s' % (self.season_id, self.date, self.home_team, self.home_score, self.away_score, self.away_team)
+		return '%s - %s %d-%d %s' % (self.date, self.home_team, self.home_score, self.away_score, self.away_team)
 
 class PlayerManager(models.Manager):
 	def rename_player(self, player_id, filename):
@@ -250,12 +248,41 @@ class Team(models.Model):
 	def __str__(self):
 		return '%s' % (self.name)
 
+class VenueManager(models.Manager):
+	def rename_venue(self, venue_id, filename):
+		venue = Venue.objects.get(pk=venue_id)
+		return 'venues/{0}/{1}.{2}'.format(venue.country, venue_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 class Venue(models.Model):
+	def venue_path(instance, filename):
+		if filename:
+			if instance.venue_id:
+				return 'venues/{0}/{1}.{2}'.format(instance.country, instance.venue_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+			else:
+				return 'venues/{0}/{1}'.format(instance.country, filename)
+		else:
+			return ''
+
 	venue_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
 	city = models.CharField(max_length=50)
 	country = models.CharField(max_length=3)
 	altitude = models.IntegerField()	#Meters
+	picture = models.ImageField(upload_to=venue_path, null=True, blank=True)
+
+	objects = VenueManager()
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		if self.picture.name:
+			filename = self.picture.name.rpartition('/')[len(self.picture.name.rpartition('/'))-1]
+			name = filename.rpartition('.')[0]
+			if not name[0] == self.venue_id:	#Check if the file is correctly named
+				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
+				self.picture.name = Venue.objects.rename_venue(self.venue_id, self.picture.name)
+				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
+				super().save(*args, **kwargs)
+				os.replace(old_file, new_file)
 
 	def __str__(self):
 		return '%s' % (self.name)
@@ -270,6 +297,8 @@ class Statistics(models.Model):
 	yellow_cards = models.IntegerField(default=0)
 	red_cards = models.IntegerField(default=0)
 	#Offensive Stats
+	goals = models.IntegerField(default=0)
+	assists = models.IntegerField(default=0)
 	shots = models.IntegerField(default=0)
 	shots_on_target = models.IntegerField(default=0)
 	shots_blocked = models.IntegerField(default=0)
@@ -304,6 +333,7 @@ class Statistics(models.Model):
 	clearances = models.IntegerField(default=0)
 	blocked_shots = models.IntegerField(default=0)
 	fouls_committed = models.IntegerField(default=0)
+	saves = models.IntegerField(default=0)
 
 	def __str__(self):
 		return '%s statistics for %s' % (self.player_id, self.fixture_id)

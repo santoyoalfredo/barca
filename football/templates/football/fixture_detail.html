@@ -1,0 +1,212 @@
+{% extends "football/base.html" %}
+{% block fixture %}<a class="nav-item nav-link" aria-current="page" href="{% url 'season' competition_id season_id %}">/ {{fixture.season_id}}</a><a class="nav-item nav-link active" aria-current="page" href="{% url 'fixture' competition_id season_id fixture.fixture_id %}">/ {{fixture}}</a>{% endblock fixture %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="row justify-content-center text-center text-light">
+        <div class="col-md-8" style="background-color:rgba(0,0,0,0.75); background-image:url('{% if fixture.location.picture %}{% get_media_prefix %}{{fixture.location.picture}}{% else %}{% get_static_prefix %}other/stadium.jpg{% endif %}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode:multiply;">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-3">
+                    <h3>{{fixture.home_team}}</h3>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <h3>{{fixture.away_team}}</h3>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-3">
+                    <img class="img-portrait" src="{% get_media_prefix %}{{fixture.home_team.crest}}">
+                </div>
+                <div class="col-md-2">
+                    <h1>{{fixture.home_score}} - {{fixture.away_score}}</h1>
+                </div>
+                <div class="col-md-3">
+                    <img class="img-portrait" src="{% get_media_prefix %}{{fixture.away_team.crest}}">
+                </div>
+            </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-3">
+                    <!-- <h6>Home goalscorers</h6> -->
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <!-- <h6>Away goalscorers</h6> -->
+                </div>
+            </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8">
+                    {{fixture.location}}
+                </div>
+            </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8">
+                    {{fixture.date|date:"l F d, Y"}} {{fixture.time|date:"H:i"}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <ul class="nav nav-tabs nav-fill" id="fixtureTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="offensive-tab" data-toggle="tab" href="#offensive" role="tab" aria-controls="offensive" aria-selected="false">Offensive Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="passing-tab" data-toggle="tab" href="#passing" role="tab" aria-controls="fixtures" aria-selected="false">Passing Stats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="defensive-tab" data-toggle="tab" href="#defensive" role="tab" aria-controls="fixtures" aria-selected="false">Defensive Stats</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="fixtureContent">
+                <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <table class="table table-striped table-sm text-center" id="general">
+                        <thead>
+                            <tr>
+                                <td class="text-left">Player</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Minute In"><img src="{% get_static_prefix %}other/sub_in.svg"></td>
+                                <td data-toggle="tooltip" data-placement="top" title="Minute Out"><img src="{% get_static_prefix %}other/sub_out.svg"></td>
+                                <td data-toggle="tooltip" data-placement="top" title="Yellow Cards"><img src="{% get_static_prefix %}other/yellow_card.svg"></td>
+                                <td data-toggle="tooltip" data-placement="top" title="Red Cards"><img src="{% get_static_prefix %}other/red_card.svg"></td>
+                            </tr>
+                        </thead>
+                        {% for stat in stats %}
+                        <tr>
+                            <td class="text-left"><a href="{% url 'player' stat.player_id.player_id %}">{{stat.player_id}}</a></td>
+                            <td>{{stat.minute_in}}'</td>
+                            <td>{{stat.minute_out}}'</td>
+                            <td>{{stat.yellow_cards}}</td>
+                            <td>{{stat.red_cards}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="offensive" role="tabpanel" aria-labelledby="offensive-tab">
+                    <table class="table table-striped table-sm text-center" id="offensive">
+                        <thead>
+                            <tr>
+                                <td class="text-left">Player</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Goals">G</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Assists">A</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Shots">S</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Shots on Target">ST</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Shots Blocked">SB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Shots hit Post">SP</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Touches">T</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Dribbles Attempted">DA</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Dribbles Won">DW</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Times Fouled">F</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Times caught Offside">O</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Possession %">P</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Times Dispossessed">D</td>
+                            </tr>
+                        </thead>
+                        {% for stat in stats %}
+                        <tr>
+                            <td class="text-left"><a href="{% url 'player' stat.player_id.player_id %}">{{stat.player_id}}</a></td>
+                            <td>{{stat.goals}}</td>
+                            <td>{{stat.assists}}</td>
+                            <td>{{stat.shots}}</td>
+                            <td>{{stat.shots_on_target}}</td>
+                            <td>{{stat.shots_blocked}}</td>
+                            <td>{{stat.crossbar}}</td>
+                            <td>{{stat.touches}}</td>
+                            <td>{{stat.dribbles_attempted}}</td>
+                            <td>{{stat.dribbles_won}}</td>
+                            <td>{{stat.fouled}}</td>
+                            <td>{{stat.offsides}}</td>
+                            <td>{{stat.possession|floatformat}}%</td>
+                            <td>{{stat.dispossessed}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="passing" role="tabpanel" aria-labelledby="passing-tab">
+                    <table class="table table-striped table-sm text-center" id="passing">
+                        <thead>
+                            <tr>
+                                <td class="text-left">Player</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Passes">P</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Key Passes">KP</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Pass Accuracy">PA</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Crosses">CR</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Accurate Crosses">AC</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Corners">CO</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Corner Accuracy">CA</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Long Balls">LB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Accurate Long Balls">ALB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Through Balls">TB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Accurate Through Balls">ATB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Defensive Aerials">DA</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Offensive Aerials">OA</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Aerials Won">AW</td>
+                            </tr>
+                        </thead>
+                        {% for stat in stats %}
+                        <tr>
+                            <td class="text-left"><a href="{% url 'player' stat.player_id.player_id %}">{{stat.player_id}}</a></td>
+                            <td>{{stat.passes}}</td>
+                            <td>{{stat.key_passes}}</td>
+                            <td>{{stat.pass_accuracy|floatformat}}%</td>
+                            <td>{{stat.crosses}}</td>
+                            <td>{{stat.accurate_crosses}}</td>
+                            <td>{{stat.corners}}</td>
+                            <td>{{stat.corner_accuracy|floatformat}}%</td>
+                            <td>{{stat.long_balls}}</td>
+                            <td>{{stat.accurate_long_balls}}</td>
+                            <td>{{stat.through_balls}}</td>
+                            <td>{{stat.accurate_through_balls}}</td>
+                            <td>{{stat.defensive_aerials}}</td>
+                            <td>{{stat.offensive_aerials}}</td>
+                            <td>{{stat.aerials_won}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="defensive" role="tabpanel" aria-labelledby="defensive-tab">
+                    <table class="table table-striped table-sm" id="defensive">
+                        <thead>
+                            <tr>
+                                <td>Player</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Tackles">T</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Successful Tackles">ST</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Interceptions">I</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Dribbled Past">DP</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Clearances">C</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Shots Blocked">SB</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Fouls Committed">F</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Saves">S</td>
+                            </tr>
+                        </thead>
+                        {% for stat in stats %}
+                        <tr>
+                            <td><a href="{% url 'player' stat.player_id.player_id %}">{{stat.player_id}}</a></td>
+                            <td>{{stat.total_tackles}}</td>
+                            <td>{{stat.successful_tackles}}</td>
+                            <td>{{stat.interceptions}}</td>
+                            <td>{{stat.dribbled_past}}</td>
+                            <td>{{stat.clearances}}</td>
+                            <td>{{stat.blocked_shots}}</td>
+                            <td>{{stat.fouls_committed}}</td>  
+                            <td>{{stat.saves}}</td>                          
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+</script>
+{% endblock script %}

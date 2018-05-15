@@ -21,7 +21,7 @@
             <img src="{% get_static_prefix %}other/player.svg" class="img-portrait img-thumbnail">
             {% endif %}
         </td>
-        <td><a href="{{player.player_id}}/">{{player.first_name}} {{player.last_name}}</a></td>
+        <td><a href="{% url 'player' player.player_id %}">{{player.first_name}} {{player.last_name}}</a></td>
         <td><img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail"></td>
         <td>
             {% if player.current_team.crest %}

@@ -38,6 +38,16 @@ class CompetitionListView(generic.ListView):
 	def competitions(self):
 		return Competition.objects.all().order_by('name')
 
+class FixtureView(generic.TemplateView):
+	model = Fixture
+	template_name = 'football/fixture_detail.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['fixture'] = Fixture.objects.get(pk=context['pk'])
+		context['stats'] = Statistics.objects.filter(fixture_id=context['pk'])
+		return context
+
 class PlayerListView(generic.ListView):
 	model = Player
 	template_name = 'football/player_list.html'

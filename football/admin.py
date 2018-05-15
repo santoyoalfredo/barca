@@ -41,7 +41,7 @@ class StatisticsAdmin(admin.ModelAdmin):
 			'fields': ('fixture_id', 'player_id', ('minute_in', 'minute_out', 'yellow_cards', 'red_cards'))
 		}),
 		('Offensive Stats', {
-			'fields': (('shots', 'shots_on_target', 'shots_blocked', 'crossbar'), ('touches', 'dribbles_attempted', 
+			'fields': (('goals', 'assists', 'shots', 'shots_on_target', 'shots_blocked', 'crossbar'), ('touches', 'dribbles_attempted', 
 				'dribbles_won', 'fouled'), ('offsides','possession', 'dispossessed'),)
 		}),
 		('Passing Stats', {
@@ -65,7 +65,7 @@ class TeamAdmin(admin.ModelAdmin):
 	ordering = ('name',)
 
 class VenueAdmin(admin.ModelAdmin):
-	fields = ['name', 'city', 'country', 'altitude']
+	fields = ['name', 'city', 'country', 'altitude', 'picture']
 	list_display = ('name', 'city', 'country', 'altitude', 'venue_id')
 
 admin.site.register(Competition, CompetitionAdmin)

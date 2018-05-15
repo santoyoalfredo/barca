@@ -20,7 +20,8 @@ urlpatterns = [
     path('competitions/<int:competition_id>/<int:pk>/', views.SeasonView.as_view(), name='season'),
     path('competitions/<int:competition_id>/add/', views.SeasonAddView.as_view(), name='seasonsadd'),
     path('competitions/<int:competition_id>/edit/<int:pk>', views.SeasonEditView.as_view(), name='seasonsedit'),
-    path('competitions/<int:competition_id>/delete/<int:pk>', views.SeasonDeleteView.as_view(), name='seasonsdelete')
+    path('competitions/<int:competition_id>/delete/<int:pk>', views.SeasonDeleteView.as_view(), name='seasonsdelete'),
+    path('competitions/<int:competition_id>/<int:season_id>/<int:pk>', views.FixtureView.as_view(), name='fixture')
 ]
 
 if settings.DEBUG:

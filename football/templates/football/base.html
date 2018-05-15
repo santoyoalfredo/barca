@@ -26,6 +26,7 @@
                     {% block player %}{% endblock player %}
                     <a class="nav-item nav-link {% block comps %}{% endblock comps %}" aria-current="page" href="/competitions/">Competitions</a>
                     {% block season %}{% endblock season %}
+                    {% block fixture %}{% endblock fixture %}
                     <a class="nav-item nav-link disabled" href="#">Statistics</a>
                   </div>
                 </div>
@@ -35,3 +36,5 @@
     {% endblock content %}
 </body>
 </html>
+{% block script %}
+{% endblock script %}
