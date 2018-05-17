@@ -54,10 +54,10 @@ class Competition(models.Model):
 
 class Fixture(models.Model):
 	fixture_id = models.AutoField(primary_key=True)
-	season_id = models.ForeignKey('Season', on_delete=models.SET_NULL, null=True)
-	home_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, related_name="home_team")
-	away_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, related_name="away_team")
-	location = models.ForeignKey('Venue', on_delete=models.SET_NULL, null=True, blank=True)
+	season = models.ForeignKey('Season', on_delete=models.CASCADE)
+	home_team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="home_team")
+	away_team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="away_team")
+	location = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
 	date = models.DateField(auto_now=False, auto_now_add=False)
 	time = models.TimeField(auto_now=False, auto_now_add=False)
 	weather_choices = (
@@ -169,7 +169,7 @@ class Player(models.Model):
 	current_team = models.ForeignKey('Team', on_delete=models.SET_DEFAULT, blank=True, default='')
 	height = models.IntegerField()	#Centimeters
 	weight = models.IntegerField()	#Kilograms
-	portrait = models.ImageField(upload_to=player_path, null=True, blank=True)
+	portrait = models.ImageField(upload_to=player_path, blank=True, default='')
 
 	objects = PlayerManager()
 
@@ -177,8 +177,9 @@ class Player(models.Model):
 		super().save(*args, **kwargs) # Call the "real" save() method
 		if self.portrait.name:
 			filename = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-1]
+			country = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-2]
 			name = filename.rpartition('.')[0]
-			if not name[0] == self.player_id:	#Check if the file is correctly named
+			if (not name[0] == self.player_id) or (not country == self.nationality):	#Check if the file is correctly named
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
 				self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
@@ -255,7 +256,7 @@ class TeamStandingManager(models.Manager):
 			team_standing = self.create(season=season, 
 			team=team, games_played=team_standing.games_played, wins=team_standing.wins, losses=team_standing.losses, draws=team_standing.draws, overtime_wins=team_standing.overtime_wins, 
 			overtime_losses=team_standing.overtime_losses, goals_forced=team_standing.goals_forced, goals_allowed=team_standing.goals_allowed, 
-			goal_difference=team_standing.goal_difference,points=team_standing.points)
+			goal_difference=team_standing.goal_difference, points=team_standing.points)
 		
 		return team_standing
 
@@ -288,15 +289,40 @@ class TeamStanding(models.Model):
 	def __str__(self):
 		return "%s - %s" % (self.season, self.team)
 
-# TODO Add automatic renaming for Crest
+class TeamManager(models.Manager):
+	def rename_team(self, team_id, filename):
+		team = Team.objects.get(pk=team_id)
+		return 'teams/{0}/{1}.{2}'.format(team.venue.country, team_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+
 class Team(models.Model):
 	def team_path(instance, filename):
-		return 'teams/{0}/{1}.{2}'.format(instance.venue.country, instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+		if filename:
+			if instance.team_id:
+				return 'teams/{0}/{1}.{2}'.format(instance.venue.country, instance.team_id, filename.rpartition('.')[len(filename.rpartition('.'))-1])
+			else:
+				return 'teams/{0}/{1}'.format(instance.venue.country, filename)
+		else:
+			return ''
 
 	team_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
-	crest = models.ImageField(upload_to=team_path, null=True, blank=True, default='')
-	venue = models.ForeignKey('Venue', on_delete=models.SET_DEFAULT, blank=True, default='')
+	crest = models.ImageField(upload_to=team_path, blank=True, default='')
+	venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+
+	objects = TeamManager()
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		if self.crest.name:
+			filename = self.crest.name.rpartition('/')[len(self.crest.name.rpartition('/'))-1]
+			country = self.crest.name.rpartition('/')[len(self.crest.name.rpartition('/'))-2]
+			name = filename.rpartition('.')[0]
+			if (not name[0] == self.team_id) or (not country == self.venue.country):	#Check if the file is correctly named
+				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
+				self.crest.name = Team.objects.rename_team(self.team_id, self.crest.name)
+				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
+				super().save(*args, **kwargs)
+				os.replace(old_file, new_file)
 
 	def __str__(self):
 		return '%s' % (self.name)
@@ -321,7 +347,7 @@ class Venue(models.Model):
 	city = models.CharField(max_length=50)
 	country = models.CharField(max_length=3) # TODO make foreign key to Country model
 	altitude = models.IntegerField()	#Meters
-	picture = models.ImageField(upload_to=venue_path, null=True, blank=True)
+	picture = models.ImageField(upload_to=venue_path, blank=True, default='')
 
 	objects = VenueManager()
 
@@ -329,8 +355,9 @@ class Venue(models.Model):
 		super().save(*args, **kwargs) # Call the "real" save() method
 		if self.picture.name:
 			filename = self.picture.name.rpartition('/')[len(self.picture.name.rpartition('/'))-1]
+			country = self.picture.name.rpartition('/')[len(self.picture.name.rpartition('/'))-2]
 			name = filename.rpartition('.')[0]
-			if not name[0] == self.venue_id:	#Check if the file is correctly named
+			if (not name[0] == self.venue_id) or (not country == self.country):	#Check if the file is correctly named
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
 				self.picture.name = Venue.objects.rename_venue(self.venue_id, self.picture.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
