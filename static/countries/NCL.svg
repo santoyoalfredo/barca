@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="1000" height="640" viewBox="0 0 999.99996 640.00001" id="svg2" version="1.1" inkscape:version="0.91 r13725" sodipodi:docname="NowaKaledonia-dwie-flagi2.svg">
+  <defs id="defs4"/>
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="0.12125733" inkscape:cx="365.05929" inkscape:cy="171.02577" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" inkscape:window-width="1366" inkscape:window-height="705" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" units="px"/>
+  <metadata id="metadata7">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-412.36223)">
+    <rect style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="rect4250" width="1000" height="640" x="-3.0517578e-005" y="412.36224"/>
+    <g id="g3350" transform="matrix(0.55555556,0,0,1.0666667,-3.0517578e-5,412.36222)" style="stroke:none;stroke-width:7.79422848;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect id="rect3338" height="600" width="900" x="0" y="0" style="fill:#ed2939;stroke:none;stroke-width:7.79422848;stroke-miterlimit:4;stroke-dasharray:none"/>
+      <rect id="rect3340" height="600" width="600" x="0" y="0" style="fill:#ffffff;stroke:none;stroke-width:7.79422848;stroke-miterlimit:4;stroke-dasharray:none"/>
+      <rect id="rect3342" height="600" width="300" x="0" y="0" style="fill:#002395;stroke:none;stroke-width:7.79422848;stroke-miterlimit:4;stroke-dasharray:none"/>
+    </g>
+    <g id="g4205" transform="matrix(0.35714286,0,0,0.91428571,45.478216,-874.43743)">
+      <rect id="rect4168" height="700" width="1400" x="1272.6609" y="1407.4371" style="fill:#009543"/>
+      <rect id="rect4170" height="466.66669" width="1400" x="1272.6609" y="1407.4371" style="fill:#ed2939;fill-opacity:1"/>
+      <rect id="rect4172" height="233.33334" width="1400" x="1272.6609" y="1407.4371" style="fill:#002395;fill-opacity:1"/>
+    </g>
+    <g id="g4192" transform="matrix(0.85725717,0,0,0.85725717,-761.05112,-774.21335)">
+      <circle id="circle4174" r="229.41333" cy="1757.4371" cx="1739.3276" style="fill:#fae600;stroke:#000000;stroke-width:7.77777815"/>
+      <path id="path4176" d="m 1700.4387,1791.6593 77.7778,0 m -77.7778,-57.5555 77.7778,0 m -38.8889,-205.3334 0,392" inkscape:connector-curvature="0" style="stroke:#000000;stroke-width:9.33333397"/>
+      <path id="path4178" d="m 1646.9587,1968.0889 c 93.6304,38.2356 181.3902,2.3489 181.3902,2.3489 0,0 -33.1287,-35.8525 -50.1107,-49.8509 -16.5713,-13.6547 -65.3193,-13.1149 -81.9544,0 -13.8818,10.948 -53.6978,51.2867 -49.3251,47.502 z" inkscape:connector-curvature="0"/>
+      <ellipse id="ellipse4180" ry="37.333336" rx="25.666668" cy="1863.2148" cx="1739.3276"/>
+      <ellipse id="ellipse4182" ry="19.693335" rx="31.111113" cy="1762.8816" cx="1739.3276"/>
+      <circle id="ellipse4184" cy="1671.8816" cx="1739.3276" r="31.111113"/>
+      <path id="path4186" d="m 1776.6609,1555.9927 c -0.01,-0.021 2.6958,4.4656 -2.9758,14.6782 -27.1071,48.818 -54.3091,49.8727 -59.472,54.0773 -5.6902,4.6325 -8.092,4.3151 -8.092,4.3151 0.406,-4.1813 0.784,-21.2784 1.0811,-22.9257 4.1145,-22.8092 38.5716,-22.4949 65.5387,-45.8508 4.2125,-3.6486 3.9107,-4.315 3.9107,-4.315 z" inkscape:connector-curvature="0"/>
+      <g transform="matrix(1.5555556,0,0,1.5555556,1272.6609,1407.4371)" id="leaf">
+        <path id="path4189" d="m 265.5,163 c 0,0 3.91436,11.22974 4.5,22.5 0.93516,17.99657 18.18031,18.5 30,18.5 l 0,-10 c -8.85851,0 -16.55267,-1.31658 -23,-14.5 -3.18045,-6.50336 -11.5,-16.5 -11.5,-16.5 z" inkscape:connector-curvature="0"/>
+        <path id="path4191" d="m 265,308 c 0,0 6.29638,-7.76543 13.6619,-25.97461 C 282.5048,272.5249 291.6115,267 300,267 l 0,-14 c -19.02757,0 -28.1503,7.0552 -29.11281,17.36332 C 268.90975,291.54089 265,308 265,308 Z" inkscape:connector-curvature="0"/>
+      </g>
+      <use id="use4193" transform="matrix(-1,0,0,1,3478.6552,0)" xlink:href="#leaf" x="0" y="0" width="100%" height="100%"/>
+    </g>
+  </g>
+</svg>
