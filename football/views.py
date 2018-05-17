@@ -44,6 +44,9 @@ class FixtureView(generic.TemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		# TODO - Create dict of events to consolidate goals from the same player
+		# TODO - Order dict of events chronologically
+		context['events'] = FixtureEvent.objects.filter(fixture=context['pk']).order_by('period', 'minute')
 		context['fixture'] = Fixture.objects.get(pk=context['pk'])
 		context['stats'] = Statistics.objects.filter(fixture_id=context['pk'])
 		return context

@@ -15,6 +15,10 @@ class FixtureAdmin(admin.ModelAdmin):
 	ordering = ('season_id', 'date')
 	search_fields = ['home_team__name', 'away_team__name']
 
+class FixtureEventAdmin(admin.ModelAdmin):
+	fields = ['event_type', 'fixture', 'team', 'player', 'period', 'minute']
+	list_display = ('event_type', 'fixture', 'team', 'player', 'period', 'minute')
+
 class PlayerAdmin(admin.ModelAdmin):
 	fieldsets = (
 		(None, {
@@ -70,6 +74,7 @@ class VenueAdmin(admin.ModelAdmin):
 
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Fixture, FixtureAdmin)
+admin.site.register(FixtureEvent, FixtureEventAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Season, SeasonAdmin)

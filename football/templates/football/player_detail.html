@@ -23,10 +23,17 @@
             </div>
             <div class="row">
                 <div class="col">
-                <h4 class="text-muted">{{player.full_name}}</h4>
+                    <h4 class="text-muted">{{player.full_name}}</h4>
                 </div>
                 <div class="col">
-                        <img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail">
+                    <img src="{% get_static_prefix %}countries/{{player.nationality}}.svg" class="img-flag img-thumbnail">
+                </div>
+                <div class="col">
+                    {% if player.current_team.crest %}
+                            <img src="{% get_media_prefix %}{{player.current_team.crest}}" class="img-portrait-med">
+                        {% else %}
+                            <img src="{% get_static_prefix %}other/team.svg" class="img-portrait-med">
+                        {% endif %}
                 </div>
             </div>
             <div class="row">

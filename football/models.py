@@ -49,6 +49,9 @@ class Competition(models.Model):
 	def __str__(self):
 		return '%s' % (self.name)
 
+# TODO Make Country model with choice selection and country names
+# Source: http://www.fifa.com/associations/index.html
+
 class Fixture(models.Model):
 	fixture_id = models.AutoField(primary_key=True)
 	season_id = models.ForeignKey('Season', on_delete=models.SET_NULL, null=True)
@@ -102,11 +105,36 @@ class Fixture(models.Model):
 		super().save(*args, **kwargs) # Call the "real" save() method
 
 		home_standing = TeamStanding.objects.save_standing(self.season_id, self.home_team)
-		# create_away_team_standing_instance_without_streaks
 		away_standing = TeamStanding.objects.save_standing(self.season_id, self.away_team)
 
 	def __str__(self):
 		return '%s - %s %d-%d %s' % (self.date, self.home_team, self.home_score, self.away_score, self.away_team)
+
+class FixtureEvent(models.Model):
+	event_id = models.AutoField(primary_key=True)
+	event_choices = (
+		('G', 'Goal'),
+		('O', 'Own Goal'),
+		('P', 'Penalty'),
+		('R', 'Red Card'),
+		('Y', 'Yellow Card')
+		)
+	event_type = models.CharField(max_length=1, choices=event_choices, default='G')
+	fixture = models.ForeignKey('Fixture', on_delete=models.CASCADE)
+	team = models.ForeignKey('Team', on_delete=models.CASCADE)
+	player = models.ForeignKey('Player', on_delete=models.CASCADE)
+	period_choices = (
+		('1', '1st Half'),
+		('2', '2nd Half'),
+		('3', 'Overtime 1st Half'), 
+		('4', 'Overtime 2nd Half'),
+		('5', 'Penalty Shootout')
+		)
+	period = models.CharField(max_length=1, choices=period_choices, default='1')
+	minute = models.IntegerField(default=0)
+
+	def __str__(self):
+		return '%s %s (%s - %s) - %s' % (self.player, self.event_type, self.period, self.minute, self.fixture)
 
 class PlayerManager(models.Manager):
 	def rename_player(self, player_id, filename):
@@ -137,6 +165,7 @@ class Player(models.Model):
 	country_number = models.IntegerField(default=0)
 	dob = models.DateField(auto_now=False, auto_now_add=False)	#YYYY-MM-DD
 	nationality = models.CharField(max_length=3)	#FIFA Country Code
+	# TODO Make nationality foreign key with Country model
 	current_team = models.ForeignKey('Team', on_delete=models.SET_DEFAULT, blank=True, default='')
 	height = models.IntegerField()	#Centimeters
 	weight = models.IntegerField()	#Kilograms
@@ -259,7 +288,7 @@ class TeamStanding(models.Model):
 	def __str__(self):
 		return "%s - %s" % (self.season, self.team)
 
-#Add automatic renaming for Crest
+# TODO Add automatic renaming for Crest
 class Team(models.Model):
 	def team_path(instance, filename):
 		return 'teams/{0}/{1}.{2}'.format(instance.venue.country, instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
@@ -290,7 +319,7 @@ class Venue(models.Model):
 	venue_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=50)
 	city = models.CharField(max_length=50)
-	country = models.CharField(max_length=3)
+	country = models.CharField(max_length=3) # TODO make foreign key to Country model
 	altitude = models.IntegerField()	#Meters
 	picture = models.ImageField(upload_to=venue_path, null=True, blank=True)
 
