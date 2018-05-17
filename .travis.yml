@@ -3,11 +3,20 @@ language: python
 python:
   - "3.6"
 
+services:
+  - postgresql
+
+addons:
+  postgresql: "10.2"
+
 env:
   global:
     - DJANGO_SETTINGS_MODULE="barca.settings-travis"
 
 install: pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 
 script:
   - python manage.py test
