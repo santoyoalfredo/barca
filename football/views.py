@@ -4,7 +4,6 @@ from django.views import generic
 from django.views.generic.edit import *
 from datetime import date
 
-# Create your views here.
 from .models import *
 from .forms import *
 

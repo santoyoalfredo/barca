@@ -55,8 +55,8 @@ class Competition(models.Model):
 class Fixture(models.Model):
 	fixture_id = models.AutoField(primary_key=True)
 	season = models.ForeignKey('Season', on_delete=models.CASCADE)
-	home_team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="home_team")
-	away_team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="away_team")
+	home_team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="fixtures")
+	away_team = models.ForeignKey('Team', on_delete=models.CASCADE)
 	location = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
 	date = models.DateField(auto_now=False, auto_now_add=False)
 	time = models.TimeField(auto_now=False, auto_now_add=False)
@@ -104,8 +104,8 @@ class Fixture(models.Model):
 			self.location = self.home_team.venue
 		super().save(*args, **kwargs) # Call the "real" save() method
 
-		home_standing = TeamStanding.objects.save_standing(self.season_id, self.home_team)
-		away_standing = TeamStanding.objects.save_standing(self.season_id, self.away_team)
+		home_standing = TeamStanding.objects.save_standing(self.season, self.home_team)
+		away_standing = TeamStanding.objects.save_standing(self.season, self.away_team)
 
 	def __str__(self):
 		return '%s - %s %d-%d %s' % (self.date, self.home_team, self.home_score, self.away_score, self.away_team)
@@ -198,7 +198,7 @@ class Position(models.Model):
 
 class Season(models.Model):
 	season_id = models.AutoField(primary_key=True)
-	competition = models.ForeignKey('Competition', on_delete=models.SET_DEFAULT, related_name = 'seasons', blank=True, default='')
+	competition = models.ForeignKey('Competition', on_delete=models.CASCADE, related_name = 'seasons')
 	year = models.IntegerField()	#Starting Year
 	teams = models.ManyToManyField('Team')
 
@@ -227,6 +227,15 @@ class TeamStandingManager(models.Manager):
 		team_standing.goals_allowed = 0
 		team_standing.goal_difference = 0
 		team_standing.points = 0
+
+		# TODO - Logic for calculating streaks
+		win_streak = 0
+		win_draw_streak = 0
+		draw_streak = 0
+		draw_loss_streak = 0
+		loss_streak = 0
+		clean_sheet_streak = 0
+		failed_to_score_streak = 0
 
 		for fixture in Fixture.objects.filter(Q(season_id=season), Q(home_team=team) | Q(away_team=team)):
 			team_standing.games_played += 1
@@ -264,14 +273,12 @@ class TeamStanding(models.Model):
 	team_standing_id = models.AutoField(primary_key=True)
 	season = models.ForeignKey('Season', on_delete=models.CASCADE, related_name='standings', blank=False)
 	team = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='standings', blank=False)
-	#position = models.IntegerField()
 	games_played = models.IntegerField(default=0)
 	wins = models.IntegerField(default=0)
 	losses = models.IntegerField(default=0)
 	draws = models.IntegerField(default=0)
 	overtime_wins = models.IntegerField(default=0)
 	overtime_losses = models.IntegerField(default=0)
-	#winningPercentage
 	goals_forced = models.IntegerField(default=0)
 	goals_allowed = models.IntegerField(default=0)
 	goal_difference = models.IntegerField(default=0)
