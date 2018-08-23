@@ -54,8 +54,10 @@ class PlayerListView(generic.ListView):
 	model = Player
 	template_name = 'football/player_list.html'
 
-	def players(self):
-		return Player.objects.all().order_by('last_name', 'first_name')
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['players'] = Player.objects.all().order_by('last_name', 'first_name')
+		return context
 
 class PlayerView(generic.DetailView):
 	model = Player

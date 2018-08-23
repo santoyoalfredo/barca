@@ -43,7 +43,7 @@ class Competition(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
 				self.logo.name = Competition.objects.rename_competition(self.competition_id, self.logo.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
-				super().save(*args, **kwargs)
+				# super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
 
 	def __str__(self):
@@ -183,7 +183,7 @@ class Player(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
 				self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
-				super().save(*args, **kwargs)
+				# super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
 
 	def __str__(self):
@@ -328,7 +328,7 @@ class Team(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
 				self.crest.name = Team.objects.rename_team(self.team_id, self.crest.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
-				super().save(*args, **kwargs)
+				# super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
 
 	def __str__(self):
@@ -368,7 +368,7 @@ class Venue(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
 				self.picture.name = Venue.objects.rename_venue(self.venue_id, self.picture.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
-				super().save(*args, **kwargs)
+				# super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
 
 	def __str__(self):
