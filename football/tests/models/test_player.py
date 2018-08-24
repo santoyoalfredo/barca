@@ -21,7 +21,7 @@ class PlayerModelTests(TestCase):
             player.save()
             player.portrait = "lorem ipsum.png"
             player.save()
-            self.assertEqual(player.portrait, "players/%s/%s.png" % (player.nationality, player.player_id))
+            self.assertEqual(player.portrait.name, "players/%s/%s.png" % (player.nationality, player.player_id))
     
     def test_save_blank_portrait(self):
         #
@@ -39,9 +39,9 @@ class PlayerModelTests(TestCase):
         #
         with patch('os.replace') as MockClass:
             instance = MockClass.return_value
-            player = Player.objects.create(player_id="20", portrait="lorem ipsum.png", first_name="Lorem", full_name="Lorem Ipsum", dob="1999-12-31", height="100", weight="50", current_team_id=1, nationality="ESP")
-            # player.save()
-            self.assertEqual(player.portrait, "players/%s/%s.png" % (player.nationality, player.player_id))
+            player = Player(player_id="20", portrait="lorem ipsum.png", first_name="Lorem", full_name="Lorem Ipsum", dob="1999-12-31", height="100", weight="50", current_team_id=1, nationality="ESP")
+            player.save()
+            self.assertEqual(player.portrait.name, "players/%s/%s.png" % (player.nationality, player.player_id))
 
     def test_save_old_country_to_new_country(self):
         #
@@ -55,7 +55,7 @@ class PlayerModelTests(TestCase):
             player.save()
             player.nationality = "ITA"
             player.save()
-            self.assertEqual(player.portrait, "players/%s/%s.png" % (player.nationality, player.player_id))
+            self.assertEqual(player.portrait.name, "players/%s/%s.png" % (player.nationality, player.player_id))
 
     def test_save_old_to_blank_portrait(self):
         #

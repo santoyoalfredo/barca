@@ -14,7 +14,6 @@ class CompetitionAddView(FormView):
 
 	def form_valid(self, form):
 		form.add_competition()
-		print('Added competition')
 		return super().form_valid(form)
 
 class CompetitionEditView(UpdateView):
@@ -34,8 +33,10 @@ class CompetitionListView(generic.ListView):
 	model = Competition
 	template_name = 'football/competitions.html'
 
-	def competitions(self):
-		return Competition.objects.all().order_by('name')
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['competitions'] = Competition.objects.all().order_by('name')
+		return context
 
 class FixtureView(generic.TemplateView):
 	model = Fixture

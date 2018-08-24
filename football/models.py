@@ -12,10 +12,7 @@ class CompetitionManager(models.Manager):
 class Competition(models.Model):
 	def competition_path(instance, filename):
 		if filename:
-			if instance.competition_id:
-				return 'competitions/{0}.{1}'.format(instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
-			else:
-				return 'competitions/{0}/{1}'.format(instance.name, filename)
+			return 'competitions/{0}.{1}'.format(instance.name, filename.rpartition('.')[len(filename.rpartition('.'))-1])
 		else:
 			return ''
 
@@ -34,17 +31,20 @@ class Competition(models.Model):
 
 	objects = CompetitionManager()
 
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs) # Call the "real" save() method
+	def rename(self, *args, **kwargs):
 		if self.logo.name:
 			filename = self.logo.name.rpartition('/')[len(self.logo.name.rpartition('/'))-1]
 			name = filename.rpartition('.')[0]
-			if not name[0] == self.name:	#Check if the file is correctly named
+			if not (name[0] == self.name):	#Check if the file is correctly named
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
 				self.logo.name = Competition.objects.rename_competition(self.competition_id, self.logo.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.logo.name)
-				# super().save(*args, **kwargs)
+				super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
+
+	def save(self, *args, **kwargs):
+			super().save(*args, **kwargs) # Call the "real" save() method
+			self.rename()
 
 	def __str__(self):
 		return '%s' % (self.name)
@@ -173,8 +173,7 @@ class Player(models.Model):
 
 	objects = PlayerManager()
 
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs) # Call the "real" save() method
+	def rename(self, *args, **kwargs):
 		if self.portrait.name:
 			filename = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-1]
 			country = self.portrait.name.rpartition('/')[len(self.portrait.name.rpartition('/'))-2]
@@ -183,8 +182,19 @@ class Player(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
 				self.portrait.name = Player.objects.rename_player(self.player_id, self.portrait.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.portrait.name)
-				# super().save(*args, **kwargs)
-				os.replace(old_file, new_file)
+				super().save(*args, **kwargs)
+				try:
+					os.replace(old_file, new_file)
+				except FileNotFoundError:
+					# TODO
+					pass
+				except FileExistsError:
+					# TODO
+					pass
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		self.rename()
 
 	def __str__(self):
 		return '%s %s' % (self.first_name, self.last_name)
@@ -318,8 +328,7 @@ class Team(models.Model):
 
 	objects = TeamManager()
 
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs) # Call the "real" save() method
+	def rename(self, *args, **kwargs):
 		if self.crest.name:
 			filename = self.crest.name.rpartition('/')[len(self.crest.name.rpartition('/'))-1]
 			country = self.crest.name.rpartition('/')[len(self.crest.name.rpartition('/'))-2]
@@ -328,8 +337,12 @@ class Team(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
 				self.crest.name = Team.objects.rename_team(self.team_id, self.crest.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.crest.name)
-				# super().save(*args, **kwargs)
+				super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		self.rename()
 
 	def __str__(self):
 		return '%s' % (self.name)
