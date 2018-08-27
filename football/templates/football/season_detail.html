@@ -6,7 +6,11 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-2">
+            {% if season.competition.logo %}
                 <img src="{% get_media_prefix %}{{season.competition.logo}}" class="img-portrait-large img-thumbnail">
+            {% else %}
+                <img src="{% get_static_prefix %}other/competition.svg" class="img-portrait-large img-thumbnail">
+            {% endif %}
             <a href="{% url 'seasonsedit' season.competition.competition_id season.season_id %}" role="button" class="btn btn-primary">Edit Season</a>
             <a href="{% url 'seasonsdelete' season.competition.competition_id season.season_id %}" role="button" class="btn btn-danger">Delete Season</a>
         </div>
