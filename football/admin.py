@@ -7,7 +7,7 @@ class CompetitionAdmin(admin.ModelAdmin):
 	list_display = ('name', 'competition_id')
 
 class FixtureAdmin(admin.ModelAdmin):
-	fields = ['season_id', 'home_team', 'away_team', 'home_score', 'away_score', 'extra_time', 'penalty_shootout', 'location',
+	fields = ['season', 'home_team', 'away_team', 'home_score', 'away_score', 'extra_time', 'penalty_shootout', 'location',
 	 'time', 'date', 'weather', 'temperature', 'windchill', 'humidity', 'pressure', 'wind_direction', 'wind_speed']
 	list_display = ('fixture_id' , 'home_team', 'home_score', 'away_team', 'away_score', 'date', 'season_id')
 	list_editable = ('home_score', 'away_score')
