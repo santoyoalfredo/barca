@@ -42,12 +42,73 @@ class FixtureView(generic.TemplateView):
 	model = Fixture
 	template_name = 'football/fixture_detail.html'
 
+	def calculateMinuteDif(self, minute):
+		minuteDif = minute - 45
+		return str(minute - minuteDif) + "+" + str(minuteDif) + "'"
+
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		# TODO - Create dict of events to consolidate goals from the same player
-		# TODO - Order dict of events chronologically
-		context['events'] = FixtureEvent.objects.filter(fixture=context['pk']).order_by('period', 'minute')
-		context['fixture'] = Fixture.objects.get(pk=context['pk'])
+		events = FixtureEvent.objects.filter(fixture=context['pk']).order_by('period', 'minute')
+		fixture = Fixture.objects.get(pk=context['pk'])
+
+		# Create a dictionary of events with the player as a key to group events by player
+		homeEvents = dict()
+		awayEvents = dict()
+		homeRedEvents = dict()
+		awayRedEvents = dict()
+		homeEvent = True
+		
+		for event in events:			
+			#Event in added time of second half of overtime 
+			if event.period == '4' and event.minute > 90:
+				eventString = self.calculateMinuteDif(event.minute)
+			#Event in added time of first half of overtime 
+			if event.period == '3' and event.minute > 90:
+				eventString = self.calculateMinuteDif(event.minute)
+			#Event in added time of second half 
+			if event.period == '2' and event.minute > 90:
+				eventString = self.calculateMinuteDif(event.minute)
+			#Event in added time of first half 
+			elif event.period == '1' and event.minute > 45:
+				eventString = self.calculateMinuteDif(event.minute)
+			else:
+				eventString = str(event.minute) + "'"
+
+			if event.event_type == 'P':
+				eventString += " (P)"
+			
+			if event.event_type == 'O':
+				eventString += " (OG)"
+
+			if event.team == fixture.home_team and (event.event_type == "G" or event.event_type == "P"):
+				homeEvent = True
+			elif event.team == fixture.away_team and event.event_type == "O":
+				homeEvent = True
+			if event.team == fixture.away_team and (event.event_type == "G" or event.event_type == "P"):
+				homeEvent = False
+			elif event.team == fixture.home_team and event.event_type == "O":
+				homeEvent = False
+
+			if homeEvent:
+				if event.event_type == 'R':
+					homeRedEvents[event.player] = eventString
+				elif not event.player in homeEvents:
+					homeEvents[event.player] = [eventString]
+				else:
+					homeEvents[event.player].append(eventString)
+			else:
+				if event.event_type == 'R':
+					awayRedEvents[event.player] = eventString
+				elif not event.player in awayEvents:
+					awayEvents[event.player] = [eventString]
+				else:
+					awayEvents[event.player].append(eventString)
+
+		context['homeEvents'] = homeEvents
+		context['awayEvents'] = awayEvents
+		context['homeRedEvents'] = homeRedEvents
+		context['awayRedEvents'] = awayRedEvents
+		context['fixture'] = fixture
 		context['stats'] = Statistics.objects.filter(fixture_id=context['pk'])
 		return context
 

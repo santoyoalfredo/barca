@@ -371,8 +371,7 @@ class Venue(models.Model):
 
 	objects = VenueManager()
 
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs) # Call the "real" save() method
+	def rename(self, *args, **kwargs):
 		if self.picture.name:
 			filename = self.picture.name.rpartition('/')[len(self.picture.name.rpartition('/'))-1]
 			country = self.picture.name.rpartition('/')[len(self.picture.name.rpartition('/'))-2]
@@ -381,8 +380,12 @@ class Venue(models.Model):
 				old_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
 				self.picture.name = Venue.objects.rename_venue(self.venue_id, self.picture.name)
 				new_file = '{0}{1}'.format(settings.MEDIA_ROOT, self.picture.name)
-				# super().save(*args, **kwargs)
+				super().save(*args, **kwargs)
 				os.replace(old_file, new_file)
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs) # Call the "real" save() method
+		self.rename()
 
 	def __str__(self):
 		return '%s' % (self.name)
