@@ -9,7 +9,7 @@ class IndexViewTests(TestCase):
 	def test_base(self):
 		response = self.client.get(reverse_lazy('index'))
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(template_name='base.html', count=1)
+		self.assertTemplateUsed(response=response, template_name='football/base.html', count=1)
 	#
 	# The index view should return the index.html template
 	# for rendering
@@ -17,4 +17,4 @@ class IndexViewTests(TestCase):
 	def test_index(self):
 		response = self.client.get(reverse_lazy('index'))
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(template_name='index.html', count=1)
+		self.assertTemplateUsed(response=response, template_name='football/index.html', count=1)

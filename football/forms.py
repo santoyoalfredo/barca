@@ -18,8 +18,9 @@ class CompetitionAddForm(ModelForm):
 
         return logo
 
-    def clean(self):
-        pass
+    # def clean(self):
+    #     cleaned_data = super(MyForm, self).clean()
+    #     return cleaned_data
 
     def add_competition(self):
         self.save()

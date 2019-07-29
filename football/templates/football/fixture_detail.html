@@ -1,5 +1,5 @@
 {% extends "football/base.html" %}
-{% block fixture %}<a class="nav-item nav-link" aria-current="page" href="{% url 'season' competition_id season_id %}">/ {{fixture.season_id}}</a><a class="nav-item nav-link active" aria-current="page" href="{% url 'fixture' competition_id season_id fixture.fixture_id %}">/ {{fixture}}</a>{% endblock fixture %}
+{% block fixture %}<a class="nav-item nav-link" aria-current="page" href="{% url 'season' competition_id season_id %}">/ {{fixture.season}}</a><a class="nav-item nav-link active" aria-current="page" href="{% url 'fixture' competition_id season_id fixture.fixture_id %}">/ {{fixture}}</a>{% endblock fixture %}
 {% block content %}
 {% load static %}
 

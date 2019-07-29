@@ -21,7 +21,7 @@ class PlayerDetailViewTests(TestCase):
             Player.objects.create(player_id="20", portrait="lorem ipsum.png", first_name="Lorem", full_name="Lorem Ipsum", dob="1999-12-31", height="100", weight="50", current_team_id=1, nationality="ESP")
             response = self.client.get(reverse_lazy('player', args=[20]))
             self.assertEquals(response.status_code, 200)
-            self.assertTemplateUsed(template_name='base.html', count=1)
+            self.assertTemplateUsed(response=response, template_name='football/base.html', count=1)
     #
 	# The PlayerDetail view should return the player_detail.html template
 	# for rendering
@@ -32,12 +32,12 @@ class PlayerDetailViewTests(TestCase):
             Player.objects.create(player_id="20", portrait="lorem ipsum.png", first_name="Lorem", full_name="Lorem Ipsum", dob="1999-12-31", height="100", weight="50", current_team_id=1, nationality="ESP")
             response = self.client.get(reverse_lazy('player', args=[20]))
             self.assertEquals(response.status_code, 200)
-            self.assertTemplateUsed(template_name='player_detail.html', count=1)
+            self.assertTemplateUsed(response=response, template_name='football/player_detail.html', count=1)
     #
 	# The PlayerDetail view should return a message if the player_id
 	# does not belong to a player
 	#
-    def test_no_player(self):
+    def test_player_404(self):
         response = self.client.get(reverse_lazy('player', args=[55]))
         self.assertEquals(response.status_code, 404)
     #

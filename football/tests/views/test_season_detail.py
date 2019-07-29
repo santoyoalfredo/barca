@@ -24,7 +24,7 @@ class SeasonDetailViewTests(TestCase):
             season.save()
             response = self.client.get(reverse_lazy('season', args=[1,20]))
             self.assertEquals(response.status_code, 200)
-            self.assertTemplateUsed(template_name='base.html', count=1)
+            self.assertTemplateUsed(response=response, template_name='football/base.html', count=1)
     #
 	# The SeasonDetail view should return the season_detail.html template
 	# for rendering
@@ -38,7 +38,7 @@ class SeasonDetailViewTests(TestCase):
             season.save()
             response = self.client.get(reverse_lazy('season', args=[1,20]))
             self.assertEquals(response.status_code, 200)
-            self.assertTemplateUsed(template_name='season_detail.html', count=1)
+            self.assertTemplateUsed(response=response, template_name='football/season_detail.html', count=1)
     #
 	# The SeasonDetail view should display the competition logo for the
 	# respective season
@@ -193,3 +193,10 @@ class SeasonDetailViewTests(TestCase):
                                     <td>IL</td>
                                     <td><a href="/competitions/1/20/55" role="button" class="btn btn-primary">Match Info</a></td>
                                 </tr>''', response.content.decode())
+    #
+	# The SeasonDetail view should return a message if the season_id
+	# does not belong to a season
+	#
+    def test_season_404(self):
+        response = self.client.get(reverse_lazy('season', args=[55]))
+        self.assertEquals(response.status_code, 404)

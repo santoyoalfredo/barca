@@ -23,7 +23,7 @@ class PlayerListViewTests(TestCase):
     def test_base(self):
         response = self.client.get(reverse_lazy('players'))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(template_name='base.html', count=1)
+        self.assertTemplateUsed(response=response, template_name='football/base.html', count=1)
     #
 	# The PlayerList view should return the player_list.html template
 	# for rendering
@@ -31,7 +31,7 @@ class PlayerListViewTests(TestCase):
     def test_player_list(self):
         response = self.client.get(reverse_lazy('players'))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(template_name='player_list.html', count=1)
+        self.assertTemplateUsed(response=response, template_name='football/player_list.html', count=1)
     #
 	# The PlayerList view should return a message if there are no
 	# players

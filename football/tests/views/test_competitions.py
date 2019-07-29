@@ -12,7 +12,7 @@ class CompetitionsViewTests(TestCase):
     def test_base(self):
         response = self.client.get(reverse_lazy('competitions'))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(template_name='base.html', count=1)
+        self.assertTemplateUsed(response=response, template_name='football/base.html', count=1)
     #
 	# The Competitions view should return the competitions.html template
 	# for rendering
@@ -20,7 +20,7 @@ class CompetitionsViewTests(TestCase):
     def test_competitions(self):
         response = self.client.get(reverse_lazy('competitions'))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(template_name='competitions.html', count=1)
+        self.assertTemplateUsed(response=response, template_name='football/competitions.html', count=1)
     #
 	# The Competitions view should return a message if there are no
 	# competitions
