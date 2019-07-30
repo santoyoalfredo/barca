@@ -24,10 +24,10 @@ class Competition(models.Model):
 		('k', 'Knockout'),
 		#('g', 'Grouped'),
 	)
-	competition_format = models.CharField(max_length=1, choices=format_choices, default='l')
-	promotion_limit = models.IntegerField(default=0)
-	qualifying_limit = models.IntegerField(default=0)
-	relegation_limit = models.IntegerField(default=0)
+	competition_format = models.CharField(max_length=1, choices=format_choices, help_text='League (Double round-robin), Knockout (Single elimination, two fixtures per round except final', default='l')
+	promotion_limit = models.IntegerField(help_text='Final position for league promotion or competition entry', default=0)
+	qualifying_limit = models.IntegerField(help_text='Final position for competition entry or qualification', default=0)
+	relegation_limit = models.IntegerField(help_text='Number of relegation spots', default=0)
 
 	objects = CompetitionManager()
 
