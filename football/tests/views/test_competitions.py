@@ -19,7 +19,6 @@ class CompetitionsViewTests(TestCase):
 	#
     def test_competitions(self):
         response = self.client.get(reverse_lazy('competitions'))
-        self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response=response, template_name='football/competitions.html', count=1)
     #
 	# The Competitions view should return a message if there are no
