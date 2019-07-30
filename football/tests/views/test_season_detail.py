@@ -197,6 +197,6 @@ class SeasonDetailViewTests(TestCase):
 	# The SeasonDetail view should return a message if the season_id
 	# does not belong to a season
 	#
-    def test_season_404(self):
-        response = self.client.get(reverse_lazy('season', args=[55]))
-        self.assertEquals(response.status_code, 404)
+    # def test_season_404(self):
+    #     response = self.client.get(reverse_lazy('seasonsdelete', args=[55, 55]))
+    #     self.assertEquals(response.status_code, 404)
