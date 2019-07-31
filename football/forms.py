@@ -18,10 +18,6 @@ class CompetitionAddForm(ModelForm):
 
         return logo
 
-    # def clean(self):
-    #     cleaned_data = super(MyForm, self).clean()
-    #     return cleaned_data
-
     def add_competition(self):
         self.save()
 
@@ -30,7 +26,7 @@ class PlayerAddForm(ModelForm):
         model = Player
         fields = ['player_id', 'first_name', 'last_name', 'full_name', 'primary_positions', 'secondary_positions', 'club_number', 'country_number', 'dob', 'nationality', 'current_team', 'height', 'weight', 'portrait']
 
-    def clean_logo(self):
+    def clean_portrait(self):
         logo = self.cleaned_data['portrait']
         if logo:
             if not(logo.content_type == 'image/jpeg' or logo.content_type == 'image/png'):
@@ -40,9 +36,6 @@ class PlayerAddForm(ModelForm):
                 )
 
         return logo
-
-    def clean(self):
-        pass
 
     def add_player(self):
         self.save()
