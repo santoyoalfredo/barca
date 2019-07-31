@@ -163,12 +163,12 @@ class Player(models.Model):
 		related_name="secondary_positions", blank=True)
 	club_number = models.IntegerField(default=0)
 	country_number = models.IntegerField(default=0)
-	dob = models.DateField(auto_now=False, auto_now_add=False)	#YYYY-MM-DD
-	nationality = models.CharField(max_length=3)	#FIFA Country Code
+	dob = models.DateField(auto_now=False, auto_now_add=False, help_text="YYYY-MM-DD")	#YYYY-MM-DD
+	nationality = models.CharField(max_length=3, help_text="FIFA Country Code")	#FIFA Country Code
 	# TODO Make nationality foreign key with Country model
 	current_team = models.ForeignKey('Team', on_delete=models.SET_DEFAULT, blank=True, default='')
-	height = models.IntegerField()	#Centimeters
-	weight = models.IntegerField()	#Kilograms
+	height = models.IntegerField(help_text="cm")	#Centimeters
+	weight = models.IntegerField(help_text="kg")	#Kilograms
 	portrait = models.ImageField(upload_to=player_path, blank=True, default='')
 
 	objects = PlayerManager()
