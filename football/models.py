@@ -196,8 +196,11 @@ class Player(models.Model):
 		super().save(*args, **kwargs) # Call the "real" save() method
 		self.rename()
 
-	def __str__(self):
+	def get_name(self):
 		return '%s %s' % (self.first_name, self.last_name)
+
+	def __str__(self):
+		return self.get_name()
 
 class Position(models.Model):
 	position_id = models.AutoField(primary_key=True)

@@ -25,7 +25,7 @@ class CompetitionDeleteTests(TestCase):
     #
 	# The Competition Delete view should display the name of the competition
 	# to be deleted
-    def test_competition_delete(self):
+    def test_competition_delete_name(self):
         response = self.client.get(reverse_lazy('competitionsdelete', args=[1]))
         self.assertContains(response, "Test League")
     #

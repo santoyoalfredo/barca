@@ -42,8 +42,21 @@ class FixtureView(generic.TemplateView):
 	model = Fixture
 	template_name = 'football/fixture_detail.html'
 
-	def calculateMinuteDif(self, minute):
-		minuteDif = minute - 45
+	def calculateMinuteDif(self, period, minute):
+
+		#Event in added time of second half of overtime 
+		if period == '4' and minute > 90:
+			minuteDif = minute - 120
+		#Event in added time of first half of overtime 
+		if period == '3' and minute > 90:
+			minuteDif = minute - 105
+		#Event in added time of second half 
+		if period == '2' and minute > 90:
+			minuteDif = minute - 90
+		#Event in added time of first half 
+		else:
+			minuteDif = minute - 45
+		
 		return str(minute - minuteDif) + "+" + str(minuteDif) + "'"
 
 	def get_context_data(self, **kwargs):
@@ -59,20 +72,25 @@ class FixtureView(generic.TemplateView):
 		homeEvent = True
 		
 		for event in events:			
-			#Event in added time of second half of overtime 
-			if event.period == '4' and event.minute > 90:
-				eventString = self.calculateMinuteDif(event.minute)
-			#Event in added time of first half of overtime 
-			if event.period == '3' and event.minute > 90:
-				eventString = self.calculateMinuteDif(event.minute)
-			#Event in added time of second half 
-			if event.period == '2' and event.minute > 90:
-				eventString = self.calculateMinuteDif(event.minute)
-			#Event in added time of first half 
-			elif event.period == '1' and event.minute > 45:
-				eventString = self.calculateMinuteDif(event.minute)
-			else:
+			# #Event in added time of second half of overtime 
+			# if event.period == '4' and event.minute > 90:
+			# 	eventString = self.calculateMinuteDif(event.minute)
+			# #Event in added time of first half of overtime 
+			# if event.period == '3' and event.minute > 90:
+			# 	eventString = self.calculateMinuteDif(event.minute)
+			# #Event in added time of second half 
+			# if event.period == '2' and event.minute > 90:
+			# 	eventString = self.calculateMinuteDif(event.minute)
+			# #Event in added time of first half 
+			# elif event.period == '1' and event.minute > 45:
+			# 	eventString = self.calculateMinuteDif(event.minute)
+			# else:
+			# 	eventString = str(event.minute) + "'"
+
+			if (event.period == '1' and event.minute <= 45) or (event.period == '2' and event.minute <= 90):
 				eventString = str(event.minute) + "'"
+			else:
+				eventString = self.calculateMinuteDif(event.period, event.minute)
 
 			if event.event_type == 'P':
 				eventString += " (P)"
@@ -91,18 +109,18 @@ class FixtureView(generic.TemplateView):
 
 			if homeEvent:
 				if event.event_type == 'R':
-					homeRedEvents[event.player] = eventString
-				elif not event.player in homeEvents:
-					homeEvents[event.player] = [eventString]
+					homeRedEvents[event.player.get_name()] = eventString
+				elif not event.player.get_name() in homeEvents:
+					homeEvents[event.player.get_name()] = [eventString]
 				else:
-					homeEvents[event.player].append(eventString)
+					homeEvents[event.player.get_name()].append(eventString)
 			else:
 				if event.event_type == 'R':
-					awayRedEvents[event.player] = eventString
-				elif not event.player in awayEvents:
-					awayEvents[event.player] = [eventString]
+					awayRedEvents[event.player.get_name()] = eventString
+				elif not event.player.get_name() in awayEvents:
+					awayEvents[event.player.get_name()] = [eventString]
 				else:
-					awayEvents[event.player].append(eventString)
+					awayEvents[event.player.get_name()].append(eventString)
 
 		context['homeEvents'] = homeEvents
 		context['awayEvents'] = awayEvents
