@@ -21,6 +21,17 @@ class CompetitionAddForm(ModelForm):
     def add_competition(self):
         self.save()
 
+class FixtureAddForm(ModelForm):
+    class Meta:
+        model = Fixture
+        fields = ['fixture_id', 'season', 'home_team', 'away_team', 'home_score', 'away_score', 'location', 'date', 'time', 'weather', 'temperature', 'windchill', 'humidity', 'pressure', 'wind_direction', 'wind_speed', 'extra_time', 'penalty_shootout']
+
+    def clean(self):
+        pass
+
+    def add_fixture(self):
+        self.save()
+
 class PlayerAddForm(ModelForm):
     class Meta:
         model = Player

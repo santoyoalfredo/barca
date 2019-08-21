@@ -130,6 +130,37 @@ class FixtureView(generic.TemplateView):
 		context['stats'] = Statistics.objects.filter(fixture_id=context['pk'])
 		return context
 
+class FixtureAddView(FormView):
+	template_name = 'football/fixture_add.html'
+	form_class = FixtureAddForm
+	
+	def get_success_url(self):
+		return reverse_lazy('season', args=[self.kwargs['competition_id'], self.kwargs['season_id']])
+
+	def form_valid(self, form):
+		form.add_fixture()
+		return super().form_valid(form)
+
+	def get_initial(self):
+		return {'season': self.kwargs['season_id']}
+
+class FixtureEditView(UpdateView):
+	model = Fixture
+	template_name = 'football/fixture_add.html'
+	form_class = FixtureAddForm
+
+	def get_success_url(self):
+		return reverse_lazy('season', args=[self.kwargs['competition_id'], self.kwargs['season_id']])
+
+	def form_valid(self, form):
+		return super().form_valid(form)
+
+class FixtureDeleteView(DeleteView):
+	model = Fixture
+	
+	def get_success_url(self):
+		return reverse_lazy('season', args=[self.kwargs['competition_id'], self.kwargs['season_id']])
+
 class PlayerListView(generic.ListView):
 	model = Player
 	template_name = 'football/player_list.html'
