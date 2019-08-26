@@ -10,7 +10,8 @@ class TeamStandingTests(TestCase):
         team2 = Team.objects.create(team_id=2, venue=venue)
         competition = Competition.objects.create(name="COM")
         season = Season.objects.create(season_id=1, competition=competition, year=1999)
-        fixture = Fixture.objects.create(season=season, home_team=team1, home_score=2, away_team=team2, extra_time=True, location=venue, date="1999-12-31", time="12:00")
+        fixture1 = Fixture.objects.create(fixture_id=1, season=season, home_team=team1, home_score=2, away_team=team2, extra_time=True, location=venue, date="1999-12-31", time="12:00")
+        fixture2 = Fixture.objects.create(fixture_id=2, season=season, home_team=team2, home_score=2, away_team=team1, extra_time=True, location=venue, date="1999-12-31", time="12:00")
 
     def test_team_standing_creation(self):
         #
@@ -22,13 +23,27 @@ class TeamStandingTests(TestCase):
         self.assertIsInstance(standing1, TeamStanding)
         self.assertIsInstance(standing2, TeamStanding)
 
+    def test_team_standing_update(self):
+        #
+        #   On fixture deletion the post_delete signal should
+        #   be received and relevant standings should update
+        #
+        Fixture.objects.get(fixture_id=1).delete()
+        standing = TeamStanding.objects.get(team=1)
+        self.assertEqual(1, standing.games_played)
+        self.assertEqual(0, standing.wins)
+        self.assertEqual(0, standing.overtime_wins)
+        self.assertEqual(0, standing.goals_forced)
+        self.assertEqual(-2, standing.goal_difference)
+        self.assertEqual(0, standing.points)
+
     def testTeamStandingGamesPlayed(self):
         #
         # TeamStanding creation correctly calculates the number of
         # games played for a given team in a given season
         #
         standing = TeamStanding.objects.get(team=1, season=1)
-        self.assertEqual(1, standing.games_played)
+        self.assertEqual(2, standing.games_played)
 
     def testTeamStandingWins(self):
         #
@@ -44,7 +59,7 @@ class TeamStandingTests(TestCase):
         # losses for a given team in a given season
         #
         standing = TeamStanding.objects.get(team=1, season=1)
-        self.assertEqual(0, standing.losses)
+        self.assertEqual(1, standing.losses)
 
     def testTeamStandingDraws(self):
         #
@@ -68,7 +83,7 @@ class TeamStandingTests(TestCase):
         # overtime losses for a given team in a given season
         #
         standing = TeamStanding.objects.get(team=1, season=1)
-        self.assertEqual(0, standing.overtime_losses)
+        self.assertEqual(1, standing.overtime_losses)
 
     def testTeamStandingGoalsForced(self):
         #
@@ -84,7 +99,7 @@ class TeamStandingTests(TestCase):
         # goals allowed for a given team in a given season
         #
         standing = TeamStanding.objects.get(team=1, season=1)
-        self.assertEqual(0, standing.goals_allowed)
+        self.assertEqual(2, standing.goals_allowed)
 
     def testTeamStandingGoalDifference(self):
         #
@@ -92,7 +107,7 @@ class TeamStandingTests(TestCase):
         # difference for a given team in a given season
         #
         standing = TeamStanding.objects.get(team=1, season=1)
-        self.assertEqual(2, standing.goal_difference)
+        self.assertEqual(0, standing.goal_difference)
 
     def testTeamStandingPoints(self):
         #
