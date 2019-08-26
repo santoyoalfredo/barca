@@ -7,10 +7,10 @@ The project is currently being developed in the `dev` branch until proper testin
 Dev branch stats (latest build):
 
 <a href="https://travis-ci.org/santoyoalfredo/barca">
-  <img src="https://travis-ci.org/santoyoalfredo/barca.svg?branch=dev">
+  <img src="https://travis-ci.org/santoyoalfredo/barca.svg?branch=master">
 </a>
 <a href="https://codecov.io/gh/santoyoalfredo/barca">
-  <img src="https://codecov.io/gh/santoyoalfredo/barca/branch/dev/graph/badge.svg">
+  <img src="https://codecov.io/gh/santoyoalfredo/barca/branch/master/graph/badge.svg">
 </a>
 
 ## Installation
