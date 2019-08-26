@@ -1,4 +1,6 @@
 django-widget-tweaks
 Django
+django-heroku
+gunicorn
 Pillow
 psycopg2
