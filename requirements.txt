@@ -1,0 +1,4 @@
+django-widget-tweaks
+Django
+Pillow
+psycopg2

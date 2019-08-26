@@ -1,0 +1,80 @@
+.img-portrait {
+	max-width: 100%;
+	max-height: 100px;
+}
+.img-portrait-med {
+	max-width: 100%;
+	max-height: 50px;
+}
+.img-portrait-sm {
+	max-width: 100%;
+	max-height: 25px;
+}
+.img-portrait-large {
+	max-width: auto;
+	max-height: 300px;
+}
+.img-flag {
+	max-width: 100%;
+	max-height: 50px;
+}
+.player-table {
+	display: block;
+}
+
+.pitch {
+	background-color: rgb(0, 0, 0);
+	width: 200px;
+	height: 275px;
+	text-align: center;
+}
+.pitchcell {
+	border: 2px solid black;
+}
+.primary-goalkeeper {
+	background-color: rgba(255, 255, 0)
+}
+.primary-defense {
+	background-color: rgba(0, 255, 255)
+}
+.primary-midfield {
+	background-color: rgba(0, 255, 0)
+}
+.primary-forward {
+	background-color: rgba(255, 0, 0)
+}
+.secondary-goalkeeper {
+	background-color: rgba(255, 255, 0, 0.5)
+}
+.secondary-defense {
+	background-color: rgba(0, 255, 255, 0.5)
+}
+.secondary-midfield {
+	background-color: rgba(0, 255, 0, 0.5)
+}
+.secondary-forward {
+	background-color: rgba(255, 0, 0, 0.5)
+}
+.position-null {
+	background-color: rgba(255, 255, 255, 0.15)
+}
+
+/* .custom-file-input ~ .custom-file-label:lang(en)::after {
+	content: "Click";
+}
+  
+.custom-file-input ~ .custom-file-label:lang(en)::before {
+	content: "Choose file...";
+} */
+  
+/*when a value is selected, this class removes the content */
+.custom-file-label.selected:lang(en)::before {
+	content: "" !important;
+}
+  
+.custom-file {
+	overflow: hidden;
+}
+.custom-file-control {
+	white-space: nowrap;
+}

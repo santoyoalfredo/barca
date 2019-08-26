@@ -1,0 +1,89 @@
+{% extends "football/base.html" %}
+{% block players %}active{% endblock players %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        {% if user.is_staff %}
+            <form enctype="multipart/form-data" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <label>First Name: </label>
+                    {{form.first_name|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Last Name: </label>
+                    {{form.last_name|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Full Name: </label>
+                    {{form.full_name|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth: </label>
+                    {{form.dob|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Height: </label>
+                    {{form.height|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Weight: </label>
+                    {{form.weight|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Nationality: </label>
+                    {{form.nationality|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Primary Positions: </label>
+                    {{form.primary_positions|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Secondary Positions: </label>
+                    {{form.secondary_positions|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Current Team: </label>
+                    {{form.current_team|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Club Number: </label>
+                    {{form.club_number|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Country Number: </label>
+                    {{form.country_number|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Portrait: </label>
+                    <div class="custom-file">
+                        {{form.portrait}}
+                        <!-- <input type="file" class="custom-file-input" id="customFile"> -->
+                        <!-- <label class="custom-file-label" for="customFile">Select a file</label> -->
+                    </div>
+                    {% if form.portrait.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{form.portrait.errors.0}}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </div>
+            </form>
+        {% else %}
+            <div>You do not have permission to access this page.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+$('.custom-file-input').on('change',function(){
+    let fileName = $(this).val().split('\\').pop(); 
+    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+  })
+</script>
+{% endblock script %}

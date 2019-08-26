@@ -1,0 +1,15 @@
+[run]
+branch = True
+source = football
+
+[report]
+exclude_lines =
+    if self.debug:
+    pragma: no cover
+    raise NotImplementedError
+    if __name__ == .__main__.:
+ignore_errors = True
+omit =
+    football/migrations/*
+    football/tests/*
+    football/__init__.py

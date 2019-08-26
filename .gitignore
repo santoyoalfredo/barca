@@ -140,3 +140,11 @@ $RECYCLE.BIN/
 
 # Database
 *.sqlite3
+
+# Resources
+resources/
+
+# Migrations
+migrations/
+
+barca/secrets.py

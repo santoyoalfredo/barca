@@ -1,0 +1,25 @@
+language: python
+
+python:
+  - "3.6"
+
+services:
+  - postgresql
+
+env:
+  global:
+    - DJANGO_SETTINGS_MODULE="barca.settings-travis"
+
+install: 
+  - pip install -r requirements.txt
+  - pip install codecov
+
+before_script:
+  - psql -c 'CREATE DATABASE travis_ci_db;' -U postgres
+  - python manage.py migrate
+
+script:
+  - coverage run manage.py test
+
+after_success:
+  - codecov
