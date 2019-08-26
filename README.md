@@ -4,13 +4,24 @@ While primarily focused on FC Barcelona the project is generic and can be applie
 
 The project is currently being developed in the `dev` branch until proper testing is done for base version features. You can see the progress in the projects page.
 
-Dev branch stats (latest build):
+https://soccerstatistics.herokuapp.com
+
+Master branch stats:
 
 <a href="https://travis-ci.org/santoyoalfredo/barca">
   <img src="https://travis-ci.org/santoyoalfredo/barca.svg?branch=master">
 </a>
 <a href="https://codecov.io/gh/santoyoalfredo/barca">
   <img src="https://codecov.io/gh/santoyoalfredo/barca/branch/master/graph/badge.svg">
+</a>
+
+Dev branch stats (latest build):
+
+<a href="https://travis-ci.org/santoyoalfredo/barca">
+  <img src="https://travis-ci.org/santoyoalfredo/barca.svg?branch=dev">
+</a>
+<a href="https://codecov.io/gh/santoyoalfredo/barca">
+  <img src="https://codecov.io/gh/santoyoalfredo/barca/branch/dev/graph/badge.svg">
 </a>
 
 ## Installation
@@ -23,6 +34,9 @@ Dev branch stats (latest build):
 - Create user and database using PostgreSQL
 - `python manage.py migrate`
 - `python manage.py runserver`
+
+## Features
+To-do
 
 ## Credits
 To-do
