@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -6,6 +7,7 @@ from football.models import *
 class SeasonDeleteTests(TestCase):
 
     def setUpTestData():
+        User.objects.create_user(username="user", password="password", is_staff=True)
         competition = Competition.objects.create(name="Test League", competition_format="l", promotion_limit="1", qualifying_limit="1", relegation_limit="1")
         venue = Venue.objects.create(name="Venue 1", city="City", country="USA", altitude=100)
         season = Season.objects.create(season_id="1", competition=competition, year=1999)
@@ -29,6 +31,7 @@ class SeasonDeleteTests(TestCase):
 	# The Season Delete view should display the name of the season
 	# to be deleted
     def test_season_delete_name(self):
+        self.client.login(username="user", password="password")
         response = self.client.get(reverse_lazy('seasonsdelete', args=[1, 1]))
         self.assertContains(response, "Test League 1999-2000")
     #

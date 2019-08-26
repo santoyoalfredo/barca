@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse_lazy
 from unittest.mock import patch
@@ -5,6 +6,9 @@ from unittest.mock import patch
 from football.models import *
 
 class CompetitionsViewTests(TestCase):
+
+    def setUpTestData():
+        User.objects.create_user(username="user", password="password", is_staff=True)
     #
 	# The Competitions view should return the base.html template
 	# for rendering
@@ -73,6 +77,7 @@ class CompetitionsViewTests(TestCase):
     def test_competition_without_seasons(self):
         competition = Competition(name="League", competition_format="l", promotion_limit=1, qualifying_limit=2, relegation_limit=1)
         competition.save()
+        self.client.login(username="user", password="password")
         response = self.client.get(reverse_lazy('competitions'))
         self.assertQuerysetEqual(response.context['competitions'], ['<Competition: League>'])
         self.assertContains(response, "League")

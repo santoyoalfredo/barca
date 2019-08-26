@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -6,6 +7,7 @@ from football.models import *
 class PlayerDeleteTests(TestCase):
 
     def setUpTestData():
+        User.objects.create_user(username="user", password="password", is_staff=True)
         venue = Venue.objects.create(name="Venue 1", city="City", country="USA", altitude=100)
         team = Team.objects.create(name="Team 1", venue=venue)
         player = Player.objects.create(player_id="1", first_name="Lorem", last_name="Ipsum", dob="1999-12-31", current_team=team, height="100", weight="50", nationality="ESP")
@@ -29,6 +31,7 @@ class PlayerDeleteTests(TestCase):
 	# The Player Delete view should display the name of the player
 	# to be deleted
     def test_player_delete_name(self):
+        self.client.login(username="user", password="password")
         response = self.client.get(reverse_lazy('playersdelete', args=[1]))
         self.assertContains(response, "Lorem Ipsum")
     #

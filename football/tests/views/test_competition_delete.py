@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -6,6 +7,7 @@ from football.models import *
 class CompetitionDeleteTests(TestCase):
 
     def setUpTestData():
+        User.objects.create_user(username="user", password="password", is_staff=True)
         Competition.objects.create(competition_id="1", name="Test League", competition_format="l", promotion_limit="1", qualifying_limit="1", relegation_limit="1")
     #
 	# The Competition Delete view should return the base.html template
@@ -26,6 +28,7 @@ class CompetitionDeleteTests(TestCase):
 	# The Competition Delete view should display the name of the competition
 	# to be deleted
     def test_competition_delete_name(self):
+        self.client.login(username="user", password="password")
         response = self.client.get(reverse_lazy('competitionsdelete', args=[1]))
         self.assertContains(response, "Test League")
     #
