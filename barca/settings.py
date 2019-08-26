@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import django_heroku
 
-from .secrets import *
+# from .secrets import *
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
