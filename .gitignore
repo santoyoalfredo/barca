@@ -145,6 +145,6 @@ $RECYCLE.BIN/
 resources/
 
 # Migrations
-migrations/
+# migrations/
 
 barca/secrets.py
