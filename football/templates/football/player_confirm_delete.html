@@ -2,9 +2,13 @@
 {% block players %}active{% endblock players %}
 {% block content %}
 <div class="container-fluid">
-    <form method="post">{% csrf_token %}
-        <p>Are you sure you want to delete "{{ object }}"?</p>
-        <input type="submit" value="Confirm" />
-    </form>
+    {% if user.is_staff %}
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            <input type="submit" value="Confirm" />
+        </form>
+    {% else %}
+        <div>You do not have permission to access this page</div>
+    {% endif %}
 </div>
 {% endblock content %}

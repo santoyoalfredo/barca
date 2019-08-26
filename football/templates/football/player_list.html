@@ -4,7 +4,7 @@
 {% load static %}
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <table class="table table-striped player-table table-responsive-md">
             <thead>
                 <tr>
@@ -39,12 +39,14 @@
                             {% endif %}
                         </td>
                         <td>#{{player.club_number}}</td>
-                        <td>
-                            <a href="{% url 'playersedit' player.player_id %}" role="button" class="btn btn-primary">Edit</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'playersdelete' player.player_id %}" role="button" class="btn btn-danger">Delete</a>
-                        </td>
+                        {% if user.is_staff %}
+                            <td>
+                                <a href="{% url 'playersedit' player.player_id %}" role="button" class="btn btn-primary">Edit</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'playersdelete' player.player_id %}" role="button" class="btn btn-danger">Delete</a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}    
             {% else %}

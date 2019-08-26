@@ -226,10 +226,12 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">
-        <a href="{% url 'fixturesedit' fixture.season.competition.competition_id fixture.season.season_id fixture.fixture_id %}" role="button" class="btn btn-primary">Edit Fixture</a>
-        <a href="{% url 'fixturesdelete' fixture.season.competition.competition_id fixture.season.season_id fixture.fixture_id %}" role="button" class="btn btn-danger">Delete Fixture</a>
-    </div>
+    {% if user.is_staff %}
+        <div class="col-md-2">
+            <a href="{% url 'fixturesedit' fixture.season.competition.competition_id fixture.season.season_id fixture.fixture_id %}" role="button" class="btn btn-primary">Edit Fixture</a>
+            <a href="{% url 'fixturesdelete' fixture.season.competition.competition_id fixture.season.season_id fixture.fixture_id %}" role="button" class="btn btn-danger">Delete Fixture</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock content %}
 {% block script %}

@@ -11,9 +11,11 @@
             {% else %}
                 <img src="{% get_static_prefix %}other/competition.svg" class="img-portrait-large img-thumbnail">
             {% endif %}
-            <a href="{% url 'seasonsedit' season.competition.competition_id season.season_id %}" role="button" class="btn btn-primary">Edit Season</a>
-            <a href="{% url 'seasonsdelete' season.competition.competition_id season.season_id %}" role="button" class="btn btn-danger">Delete Season</a>
-            <a href="{% url 'fixturesadd' season.competition.competition_id season.season_id %}" role="button" class="btn btn-primary">Add Fixture</a>
+            {% if user.is_staff %}
+                <a href="{% url 'seasonsedit' season.competition.competition_id season.season_id %}" role="button" class="btn btn-primary">Edit Season</a>
+                <a href="{% url 'seasonsdelete' season.competition.competition_id season.season_id %}" role="button" class="btn btn-danger">Delete Season</a>
+                <a href="{% url 'fixturesadd' season.competition.competition_id season.season_id %}" role="button" class="btn btn-primary">Add Fixture</a>
+            {% endif %}
         </div>
     </div>
     <div class="row justify-content-center">

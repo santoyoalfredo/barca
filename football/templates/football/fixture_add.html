@@ -6,78 +6,82 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <form enctype="multipart/form-data" method="post">{% csrf_token %}
-        <div class="form-group">
-                <label>Season:</label>
-                {{form.season|add_class:"form-control"}}
-            </div>
+        {% if user.is_staff %}
+            <form enctype="multipart/form-data" method="post">{% csrf_token %}
             <div class="form-group">
-                <label>Home Team:</label>
-                {{form.home_team|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Home Score:</label>
-                {{form.home_score|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Away Team:</label>
-                {{form.away_team|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Away Score:</label>
-                {{form.away_score|add_class:"form-control"}}
-            <div class="form-group">
-                <label>Extra Time:</label>
-                {{form.extra_time|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Penalty Shootout:</label>
-                {{form.penalty_shootout|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Location:</label>
-                {{form.location|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Date:</label>
-                {{form.date|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Time:</label>
-                {{form.time|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Weather:</label>
-                {{form.weather|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Temperature:</label>
-                {{form.temperature|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Wind Chill:</label>
-                {{form.windchill|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Humidity:</label>
-                {{form.humidity|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Pressure:</label>
-                {{form.pressure|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Wind Direction:</label>
-                {{form.wind_direction|add_class:"form-control"}}
-            </div>
-            <div class="form-group">
-                <label>Wind Speed:</label>
-                {{form.wind_speed|add_class:"form-control"}}
-            </div>
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit form</button>
-            </div>
-        </form>
+                    <label>Season:</label>
+                    {{form.season|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Home Team:</label>
+                    {{form.home_team|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Home Score:</label>
+                    {{form.home_score|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Away Team:</label>
+                    {{form.away_team|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Away Score:</label>
+                    {{form.away_score|add_class:"form-control"}}
+                <div class="form-group">
+                    <label>Extra Time:</label>
+                    {{form.extra_time|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Penalty Shootout:</label>
+                    {{form.penalty_shootout|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Location:</label>
+                    {{form.location|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Date:</label>
+                    {{form.date|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Time:</label>
+                    {{form.time|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Weather:</label>
+                    {{form.weather|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Temperature:</label>
+                    {{form.temperature|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Wind Chill:</label>
+                    {{form.windchill|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Humidity:</label>
+                    {{form.humidity|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Pressure:</label>
+                    {{form.pressure|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Wind Direction:</label>
+                    {{form.wind_direction|add_class:"form-control"}}
+                </div>
+                <div class="form-group">
+                    <label>Wind Speed:</label>
+                    {{form.wind_speed|add_class:"form-control"}}
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </div>
+            </form>
+        {% else %}
+            <div>You do not have permission to access this page.</div>
+        {% endif %}
     </div>
 </div>
 
