@@ -82,7 +82,7 @@ class SeasonDetailViewTests(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertInHTML('''<tr >
                                     <td>1</td>
-                                    <td class="align-middle"><img src="/resources/" class="img-portrait-sm mx-auto d-block"></td>
+                                    <td class="align-middle"><img src="/static/other/team.svg" class="img-portrait-sm mx-auto d-block"></td>
                                     <td>LI</td>
                                     <td>1</td>
                                     <td>1</td>
@@ -108,7 +108,7 @@ class SeasonDetailViewTests(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertInHTML('''<tr class="table-success">
                                     <td>1</td>
-                                    <td class="align-middle"><img src="/resources/" class="img-portrait-sm mx-auto d-block"></td>
+                                    <td class="align-middle"><img src="/static/other/team.svg" class="img-portrait-sm mx-auto d-block"></td>
                                     <td>LI</td>
                                     <td>1</td>
                                     <td>1</td>
@@ -134,7 +134,7 @@ class SeasonDetailViewTests(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertInHTML('''<tr class="table-warning">
                                     <td>1</td>
-                                    <td class="align-middle"><img src="/resources/" class="img-portrait-sm mx-auto d-block"></td>
+                                    <td class="align-middle"><img src="/static/other/team.svg" class="img-portrait-sm mx-auto d-block"></td>
                                     <td>LI</td>
                                     <td>1</td>
                                     <td>1</td>
@@ -160,7 +160,7 @@ class SeasonDetailViewTests(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertInHTML('''<tr class="table-danger">
                                     <td>2</td>
-                                    <td class="align-middle"><img src="/resources/" class="img-portrait-sm mx-auto d-block"></td>
+                                    <td class="align-middle"><img src="/static/other/team.svg" class="img-portrait-sm mx-auto d-block"></td>
                                     <td>IL</td>
                                     <td>1</td>
                                     <td>0</td>
@@ -198,5 +198,5 @@ class SeasonDetailViewTests(TestCase):
 	# does not belong to a season
 	#
     # def test_season_404(self):
-    #     response = self.client.get(reverse_lazy('seasonsdelete', args=[55, 55]))
+    #     response = self.client.get(reverse_lazy('season', args=[55, 55]))
     #     self.assertEquals(response.status_code, 404)
