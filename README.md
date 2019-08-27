@@ -54,13 +54,15 @@ The Seasons page offers a view of the standings as well as the ability to see de
 
 ### Fixtures
 Selecting a fixture will allow you to see detailed information about the fixture as well as available statistics* for players of the teams involved.
-_Feature still in development_
+
+\*_Feature still in development_
 
 <img src="https://i.imgur.com/POUghHU.jpg">
 
 ### Players
 The Players page shows a general overview of various players with more detailed information to be aggregated in their respective pages*.
-_Feature still in development_
+
+\*_Feature still in development_
 
 <img src="https://i.imgur.com/e3iwJWI.jpg">
 <img src="https://i.imgur.com/488gIzH.jpg">
