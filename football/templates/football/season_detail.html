@@ -50,7 +50,13 @@
                             {% for standing in standings %}
                                 <tr {% if forloop.counter <= season.competition.promotion_limit %}class="table-success"{% elif forloop.counter <= season.competition.qualifying_limit %}class="table-warning"{% elif forloop.revcounter <= season.competition.relegation_limit %}class="table-danger"{% endif %}>
                                     <td>{{forloop.counter}}</td>
-                                    <td class="align-middle"><img src="{% get_media_prefix %}{{standing.team.crest}}" class="img-portrait-sm mx-auto d-block"></td>
+                                    <td class="align-middle">
+                                        {% if standing.team.crest %}
+                                            <img src="{% get_media_prefix %}{{standing.team.crest}}" class="img-portrait-sm mx-auto d-block">
+                                        {% else %}
+                                            <img src="{% get_static_prefix %}other/team.svg" class="img-portrait-sm mx-auto d-block">
+                                        {% endif %}
+                                    </td>
                                     <td>{{standing.team.name}}</td>
                                     <td>{{standing.games_played}}</td>
                                     <td>{{standing.wins}}</td>
